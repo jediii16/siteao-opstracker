@@ -1,4 +1,5 @@
 import cors from "cors"
+import cookieParser from "cookie-parser"
 import express from "express"
 import helmet from "helmet"
 import morgan from "morgan"
@@ -23,6 +24,7 @@ app.use(
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(cookieParser())
 
 if (env.NODE_ENV === "development") {
   app.use(morgan("dev"))

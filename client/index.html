@@ -5,8 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="SITEAO OpsTracker frontend foundation for logistics and committee operations."
+      content="SITEAO OpsTracker for accountable inventory and borrowing operations."
     />
+    <script>
+      (() => {
+        const storedTheme = localStorage.getItem('siteao-theme')
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+        const isDark = storedTheme === 'dark' || (storedTheme !== 'light' && prefersDark)
+        document.documentElement.classList.toggle('dark', isDark)
+        document.documentElement.style.colorScheme = isDark ? 'dark' : 'light'
+      })()
+    </script>
     <title>SITEAO OpsTracker</title>
   </head>
   <body>

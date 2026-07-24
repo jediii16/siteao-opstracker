@@ -3,8 +3,13 @@ import { Link } from 'react-router-dom'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { useAuth } from '@/hooks/useAuth'
+import { getHomePath } from '@/lib/navigation'
 
 export function NotFoundPage() {
+  const { user } = useAuth()
+  const destination = user ? getHomePath(user.role) : '/login'
+
   return (
     <main className="flex min-h-screen items-center justify-center bg-muted/30 p-6">
       <Card className="w-full max-w-lg">
@@ -18,9 +23,9 @@ export function NotFoundPage() {
             The page you requested does not exist or may have moved.
           </p>
           <Button asChild className="mt-6">
-            <Link to="/">
+            <Link to={destination}>
               <ArrowLeft className="size-4" aria-hidden="true" />
-              Return to login
+              {user ? 'Return to dashboard' : 'Return to login'}
             </Link>
           </Button>
         </CardContent>

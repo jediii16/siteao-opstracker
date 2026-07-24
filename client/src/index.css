@@ -3,7 +3,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: "Inter", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Poppins", "HK Grotesk", "Segoe UI", system-ui, sans-serif;
+  --font-heading: "Montserrat", "Satoshi", "Poppins", system-ui, sans-serif;
+  --font-subheading: "Solomon Sans", "Poppins", system-ui, sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -22,6 +24,19 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-brand-orange: #ff4400;
+  --color-brand-navy: #0c1a4d;
+  --color-brand-light-blue: #48adbf;
   --radius-xs: calc(var(--radius) * 0.5);
   --radius-sm: calc(var(--radius) * 0.75);
   --radius-md: calc(var(--radius) * 0.875);
@@ -31,24 +46,67 @@
 
 :root {
   --radius: 0.75rem;
-  --background: oklch(0.982 0.004 247.858);
-  --foreground: oklch(0.208 0.042 265.755);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.208 0.042 265.755);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.208 0.042 265.755);
-  --primary: oklch(0.488 0.217 264.376);
-  --primary-foreground: oklch(0.985 0.002 247.839);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.279 0.041 260.031);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.932 0.032 255.585);
-  --accent-foreground: oklch(0.379 0.146 265.522);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.623 0.188 259.815);
+  --background: #fefefe;
+  --foreground: #121622;
+  --card: #ffffff;
+  --card-foreground: #121622;
+  --popover: #ffffff;
+  --popover-foreground: #121622;
+  --primary: #d93600;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f4f8;
+  --secondary-foreground: #0c1a4d;
+  --muted: #f4f5f7;
+  --muted-foreground: #596273;
+  --accent: #fff1e8;
+  --accent-foreground: #9e2b00;
+  --destructive: #d10b02;
+  --border: #e1e5eb;
+  --input: #d5dae2;
+  --ring: #ff4400;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #121622;
+  --sidebar-accent: #fff0e8;
+  --sidebar-accent-foreground: #9e2b00;
+  --success: #145e79;
+  --success-foreground: #ffffff;
+  --warning: #ffa200;
+  --warning-foreground: #121622;
+  --info: #48adbf;
+  --info-foreground: #0c1a4d;
+  --brand-gradient-primary: linear-gradient(90deg, #ff0d01, #fce003);
+  --brand-gradient-secondary: linear-gradient(135deg, #48adbf, #0c1a4d);
+}
+
+.dark {
+  --background: #0e111a;
+  --foreground: #fefefe;
+  --card: #171c29;
+  --card-foreground: #fefefe;
+  --popover: #171c29;
+  --popover-foreground: #fefefe;
+  --primary: #d93600;
+  --primary-foreground: #ffffff;
+  --secondary: #182344;
+  --secondary-foreground: #edf5ff;
+  --muted: #1d2432;
+  --muted-foreground: #aeb7c6;
+  --accent: #38241b;
+  --accent-foreground: #ffb089;
+  --destructive: #d9362f;
+  --border: #2d3545;
+  --input: #394254;
+  --ring: #ff6a38;
+  --sidebar: #101828;
+  --sidebar-foreground: #f5f7fb;
+  --sidebar-accent: #37241d;
+  --sidebar-accent-foreground: #ffb089;
+  --success: #48adbf;
+  --success-foreground: #07151a;
+  --warning: #ffc14d;
+  --warning-foreground: #211400;
+  --info: #62bfd0;
+  --info-foreground: #07151a;
 }
 
 @layer base {
@@ -60,8 +118,31 @@
     @apply min-h-screen bg-background font-sans text-foreground antialiased;
   }
 
-  button,
-  a {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-heading);
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--primary) 24%, transparent);
+  }
+}
+
+@layer utilities {
+  .font-heading {
+    font-family: var(--font-heading);
+  }
+
+  .font-subheading {
+    font-family: var(--font-subheading);
+  }
+
+  .brand-gradient-primary {
+    background-image: var(--brand-gradient-primary);
+  }
+
+  .brand-gradient-secondary {
+    background-image: var(--brand-gradient-secondary);
   }
 }

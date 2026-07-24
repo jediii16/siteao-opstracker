@@ -51,7 +51,15 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-
+  Committee: 'Committee',
+  User: 'User',
+  Category: 'Category',
+  Item: 'Item',
+  BorrowingRequest: 'BorrowingRequest',
+  BorrowingRequestItem: 'BorrowingRequestItem',
+  InventoryTransaction: 'InventoryTransaction',
+  AuditLog: 'AuditLog',
+  RefreshToken: 'RefreshToken'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -68,4 +76,199 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const CommitteeScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CommitteeScalarFieldEnum = (typeof CommitteeScalarFieldEnum)[keyof typeof CommitteeScalarFieldEnum]
+
+
+export const UserScalarFieldEnum = {
+  id: 'id',
+  committeeId: 'committeeId',
+  username: 'username',
+  passwordHash: 'passwordHash',
+  role: 'role',
+  isActive: 'isActive',
+  passwordChangedAt: 'passwordChangedAt',
+  lastLoginAt: 'lastLoginAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const CategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  isActive: 'isActive',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
+
+
+export const ItemScalarFieldEnum = {
+  id: 'id',
+  itemCode: 'itemCode',
+  categoryId: 'categoryId',
+  itemName: 'itemName',
+  description: 'description',
+  totalQuantity: 'totalQuantity',
+  availableQuantity: 'availableQuantity',
+  condition: 'condition',
+  storageLocation: 'storageLocation',
+  googleDriveFolderLink: 'googleDriveFolderLink',
+  isActive: 'isActive',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ItemScalarFieldEnum = (typeof ItemScalarFieldEnum)[keyof typeof ItemScalarFieldEnum]
+
+
+export const BorrowingRequestScalarFieldEnum = {
+  id: 'id',
+  requestCode: 'requestCode',
+  committeeId: 'committeeId',
+  submittedBy: 'submittedBy',
+  requesterName: 'requesterName',
+  requesterPosition: 'requesterPosition',
+  purpose: 'purpose',
+  borrowDate: 'borrowDate',
+  expectedReturnDate: 'expectedReturnDate',
+  additionalNotes: 'additionalNotes',
+  status: 'status',
+  rejectionReason: 'rejectionReason',
+  cancellationReason: 'cancellationReason',
+  approvedBy: 'approvedBy',
+  approvedAt: 'approvedAt',
+  rejectedBy: 'rejectedBy',
+  rejectedAt: 'rejectedAt',
+  cancelledBy: 'cancelledBy',
+  cancelledAt: 'cancelledAt',
+  borrowedAt: 'borrowedAt',
+  returnedAt: 'returnedAt',
+  submittedAt: 'submittedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BorrowingRequestScalarFieldEnum = (typeof BorrowingRequestScalarFieldEnum)[keyof typeof BorrowingRequestScalarFieldEnum]
+
+
+export const BorrowingRequestItemScalarFieldEnum = {
+  id: 'id',
+  borrowingRequestId: 'borrowingRequestId',
+  itemId: 'itemId',
+  quantityRequested: 'quantityRequested',
+  quantityApproved: 'quantityApproved',
+  quantityReleased: 'quantityReleased',
+  quantityReturned: 'quantityReturned',
+  returnCondition: 'returnCondition',
+  returnNotes: 'returnNotes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BorrowingRequestItemScalarFieldEnum = (typeof BorrowingRequestItemScalarFieldEnum)[keyof typeof BorrowingRequestItemScalarFieldEnum]
+
+
+export const InventoryTransactionScalarFieldEnum = {
+  id: 'id',
+  itemId: 'itemId',
+  borrowingRequestId: 'borrowingRequestId',
+  performedBy: 'performedBy',
+  transactionType: 'transactionType',
+  quantity: 'quantity',
+  quantityBefore: 'quantityBefore',
+  quantityAfter: 'quantityAfter',
+  remarks: 'remarks',
+  createdAt: 'createdAt'
+} as const
+
+export type InventoryTransactionScalarFieldEnum = (typeof InventoryTransactionScalarFieldEnum)[keyof typeof InventoryTransactionScalarFieldEnum]
+
+
+export const AuditLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  committeeId: 'committeeId',
+  action: 'action',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  description: 'description',
+  oldValues: 'oldValues',
+  newValues: 'newValues',
+  ipAddress: 'ipAddress',
+  createdAt: 'createdAt'
+} as const
+
+export type AuditLogScalarFieldEnum = (typeof AuditLogScalarFieldEnum)[keyof typeof AuditLogScalarFieldEnum]
+
+
+export const RefreshTokenScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  tokenHash: 'tokenHash',
+  expiresAt: 'expiresAt',
+  revokedAt: 'revokedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type RefreshTokenScalarFieldEnum = (typeof RefreshTokenScalarFieldEnum)[keyof typeof RefreshTokenScalarFieldEnum]
+
+
+export const SortOrder = {
+  asc: 'asc',
+  desc: 'desc'
+} as const
+
+export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+} as const
+
+export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

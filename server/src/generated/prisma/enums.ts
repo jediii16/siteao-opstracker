@@ -9,7 +9,56 @@
 * 🟢 You can import this file directly.
 */
 
+export const UserRole = {
+  SUPER_ADMIN: 'SUPER_ADMIN',
+  COMMITTEE: 'COMMITTEE'
+} as const
+
+export type UserRole = (typeof UserRole)[keyof typeof UserRole]
 
 
-// This file is empty because there are no enums in the schema.
-export {}
+export const ItemCondition = {
+  GOOD: 'GOOD',
+  FAIR: 'FAIR',
+  DAMAGED: 'DAMAGED',
+  UNDER_REPAIR: 'UNDER_REPAIR',
+  LOST: 'LOST'
+} as const
+
+export type ItemCondition = (typeof ItemCondition)[keyof typeof ItemCondition]
+
+
+export const RequestStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  CANCELLED: 'CANCELLED',
+  BORROWED: 'BORROWED',
+  RETURNED: 'RETURNED'
+} as const
+
+export type RequestStatus = (typeof RequestStatus)[keyof typeof RequestStatus]
+
+
+export const ReturnCondition = {
+  GOOD: 'GOOD',
+  FAIR: 'FAIR',
+  DAMAGED: 'DAMAGED',
+  LOST: 'LOST'
+} as const
+
+export type ReturnCondition = (typeof ReturnCondition)[keyof typeof ReturnCondition]
+
+
+export const TransactionType = {
+  ITEM_ADDED: 'ITEM_ADDED',
+  QUANTITY_INCREASED: 'QUANTITY_INCREASED',
+  QUANTITY_DECREASED: 'QUANTITY_DECREASED',
+  BORROWED: 'BORROWED',
+  RETURNED: 'RETURNED',
+  DAMAGED: 'DAMAGED',
+  LOST: 'LOST',
+  ADJUSTMENT: 'ADJUSTMENT'
+} as const
+
+export type TransactionType = (typeof TransactionType)[keyof typeof TransactionType]
