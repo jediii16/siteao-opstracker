@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { PageHeader } from '@/components/common/PageHeader'
+import { AppSelect } from '@/components/common/AppSelect'
 import { PaginationControls } from '@/components/common/PaginationControls'
 import { ServerDataTable, type ServerTableColumn } from '@/components/common/ServerDataTable'
 import { StatusBadge } from '@/components/common/StatusBadge'
@@ -192,29 +193,27 @@ export function RequestsPage() {
               className="pl-9"
             />
           </div>
-          <select
+          <AppSelect
             value={status}
-            onChange={(event) => updateFilter(setStatus, event.target.value)}
-            aria-label="Filter request status"
-            className="h-9 rounded-md border border-input bg-background px-3 text-sm"
-          >
-            <option value="">All statuses</option>
-            {statuses.map((requestStatus) => (
-              <option key={requestStatus} value={requestStatus}>{requestStatus}</option>
-            ))}
-          </select>
+            onValueChange={(value) => updateFilter(setStatus, value)}
+            ariaLabel="Filter request status"
+            emptyLabel="All statuses"
+            options={statuses.map((requestStatus) => ({
+              value: requestStatus,
+              label: requestStatus,
+            }))}
+          />
           {!isCommittee ? (
-            <select
+            <AppSelect
               value={committeeId}
-              onChange={(event) => updateFilter(setCommitteeId, event.target.value)}
-              aria-label="Filter by committee"
-              className="h-9 rounded-md border border-input bg-background px-3 text-sm"
-            >
-              <option value="">All committees</option>
-              {committees.map((committee) => (
-                <option key={committee.id} value={committee.id}>{committee.name}</option>
-              ))}
-            </select>
+              onValueChange={(value) => updateFilter(setCommitteeId, value)}
+              ariaLabel="Filter by committee"
+              emptyLabel="All committees"
+              options={committees.map((committee) => ({
+                value: committee.id,
+                label: committee.name,
+              }))}
+            />
           ) : null}
         </CardContent>
         <ServerDataTable

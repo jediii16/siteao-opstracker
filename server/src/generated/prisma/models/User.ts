@@ -233,6 +233,7 @@ export type UserWhereInput = {
   inventoryTransactions?: Prisma.InventoryTransactionListRelationFilter
   auditLogs?: Prisma.AuditLogListRelationFilter
   refreshTokens?: Prisma.RefreshTokenListRelationFilter
+  systemSettingsUpdated?: Prisma.SystemSettingListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -257,6 +258,7 @@ export type UserOrderByWithRelationInput = {
   inventoryTransactions?: Prisma.InventoryTransactionOrderByRelationAggregateInput
   auditLogs?: Prisma.AuditLogOrderByRelationAggregateInput
   refreshTokens?: Prisma.RefreshTokenOrderByRelationAggregateInput
+  systemSettingsUpdated?: Prisma.SystemSettingOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -284,6 +286,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   inventoryTransactions?: Prisma.InventoryTransactionListRelationFilter
   auditLogs?: Prisma.AuditLogListRelationFilter
   refreshTokens?: Prisma.RefreshTokenListRelationFilter
+  systemSettingsUpdated?: Prisma.SystemSettingListRelationFilter
 }, "id" | "committeeId" | "username">
 
 export type UserOrderByWithAggregationInput = {
@@ -339,6 +342,7 @@ export type UserCreateInput = {
   inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutPerformerInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  systemSettingsUpdated?: Prisma.SystemSettingCreateNestedManyWithoutUpdaterInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -362,6 +366,7 @@ export type UserUncheckedCreateInput = {
   inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutPerformerInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  systemSettingsUpdated?: Prisma.SystemSettingUncheckedCreateNestedManyWithoutUpdaterInput
 }
 
 export type UserUpdateInput = {
@@ -385,6 +390,7 @@ export type UserUpdateInput = {
   inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutPerformerNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  systemSettingsUpdated?: Prisma.SystemSettingUpdateManyWithoutUpdaterNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -408,6 +414,7 @@ export type UserUncheckedUpdateInput = {
   inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutPerformerNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  systemSettingsUpdated?: Prisma.SystemSettingUncheckedUpdateManyWithoutUpdaterNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -497,14 +504,14 @@ export type UserMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
-export type UserScalarRelationFilter = {
-  is?: Prisma.UserWhereInput
-  isNot?: Prisma.UserWhereInput
-}
-
 export type UserNullableScalarRelationFilter = {
   is?: Prisma.UserWhereInput | null
   isNot?: Prisma.UserWhereInput | null
+}
+
+export type UserScalarRelationFilter = {
+  is?: Prisma.UserWhereInput
+  isNot?: Prisma.UserWhereInput
 }
 
 export type UserCreateNestedManyWithoutCommitteeInput = {
@@ -555,6 +562,22 @@ export type EnumUserRoleFieldUpdateOperationsInput = {
 
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
+}
+
+export type UserCreateNestedOneWithoutSystemSettingsUpdatedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSystemSettingsUpdatedInput, Prisma.UserUncheckedCreateWithoutSystemSettingsUpdatedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSystemSettingsUpdatedInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutSystemSettingsUpdatedNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSystemSettingsUpdatedInput, Prisma.UserUncheckedCreateWithoutSystemSettingsUpdatedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSystemSettingsUpdatedInput
+  upsert?: Prisma.UserUpsertWithoutSystemSettingsUpdatedInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSystemSettingsUpdatedInput, Prisma.UserUpdateWithoutSystemSettingsUpdatedInput>, Prisma.UserUncheckedUpdateWithoutSystemSettingsUpdatedInput>
 }
 
 export type UserCreateNestedOneWithoutCategoriesCreatedInput = {
@@ -727,6 +750,7 @@ export type UserCreateWithoutCommitteeInput = {
   inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutPerformerInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  systemSettingsUpdated?: Prisma.SystemSettingCreateNestedManyWithoutUpdaterInput
 }
 
 export type UserUncheckedCreateWithoutCommitteeInput = {
@@ -749,6 +773,7 @@ export type UserUncheckedCreateWithoutCommitteeInput = {
   inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutPerformerInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  systemSettingsUpdated?: Prisma.SystemSettingUncheckedCreateNestedManyWithoutUpdaterInput
 }
 
 export type UserCreateOrConnectWithoutCommitteeInput = {
@@ -793,6 +818,114 @@ export type UserScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
 }
 
+export type UserCreateWithoutSystemSettingsUpdatedInput = {
+  id?: string
+  username: string
+  passwordHash: string
+  role: $Enums.UserRole
+  isActive?: boolean
+  passwordChangedAt?: Date | string | null
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  committee?: Prisma.CommitteeCreateNestedOneWithoutUsersInput
+  categoriesCreated?: Prisma.CategoryCreateNestedManyWithoutCreatorInput
+  itemsCreated?: Prisma.ItemCreateNestedManyWithoutCreatorInput
+  itemsUpdated?: Prisma.ItemCreateNestedManyWithoutUpdaterInput
+  borrowingRequestsSubmitted?: Prisma.BorrowingRequestCreateNestedManyWithoutSubmitterInput
+  borrowingRequestsApproved?: Prisma.BorrowingRequestCreateNestedManyWithoutApproverInput
+  borrowingRequestsRejected?: Prisma.BorrowingRequestCreateNestedManyWithoutRejectorInput
+  borrowingRequestsCancelled?: Prisma.BorrowingRequestCreateNestedManyWithoutCancellerInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutPerformerInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutSystemSettingsUpdatedInput = {
+  id?: string
+  committeeId?: string | null
+  username: string
+  passwordHash: string
+  role: $Enums.UserRole
+  isActive?: boolean
+  passwordChangedAt?: Date | string | null
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  categoriesCreated?: Prisma.CategoryUncheckedCreateNestedManyWithoutCreatorInput
+  itemsCreated?: Prisma.ItemUncheckedCreateNestedManyWithoutCreatorInput
+  itemsUpdated?: Prisma.ItemUncheckedCreateNestedManyWithoutUpdaterInput
+  borrowingRequestsSubmitted?: Prisma.BorrowingRequestUncheckedCreateNestedManyWithoutSubmitterInput
+  borrowingRequestsApproved?: Prisma.BorrowingRequestUncheckedCreateNestedManyWithoutApproverInput
+  borrowingRequestsRejected?: Prisma.BorrowingRequestUncheckedCreateNestedManyWithoutRejectorInput
+  borrowingRequestsCancelled?: Prisma.BorrowingRequestUncheckedCreateNestedManyWithoutCancellerInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutPerformerInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutSystemSettingsUpdatedInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutSystemSettingsUpdatedInput, Prisma.UserUncheckedCreateWithoutSystemSettingsUpdatedInput>
+}
+
+export type UserUpsertWithoutSystemSettingsUpdatedInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSystemSettingsUpdatedInput, Prisma.UserUncheckedUpdateWithoutSystemSettingsUpdatedInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSystemSettingsUpdatedInput, Prisma.UserUncheckedCreateWithoutSystemSettingsUpdatedInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutSystemSettingsUpdatedInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSystemSettingsUpdatedInput, Prisma.UserUncheckedUpdateWithoutSystemSettingsUpdatedInput>
+}
+
+export type UserUpdateWithoutSystemSettingsUpdatedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  committee?: Prisma.CommitteeUpdateOneWithoutUsersNestedInput
+  categoriesCreated?: Prisma.CategoryUpdateManyWithoutCreatorNestedInput
+  itemsCreated?: Prisma.ItemUpdateManyWithoutCreatorNestedInput
+  itemsUpdated?: Prisma.ItemUpdateManyWithoutUpdaterNestedInput
+  borrowingRequestsSubmitted?: Prisma.BorrowingRequestUpdateManyWithoutSubmitterNestedInput
+  borrowingRequestsApproved?: Prisma.BorrowingRequestUpdateManyWithoutApproverNestedInput
+  borrowingRequestsRejected?: Prisma.BorrowingRequestUpdateManyWithoutRejectorNestedInput
+  borrowingRequestsCancelled?: Prisma.BorrowingRequestUpdateManyWithoutCancellerNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutPerformerNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSystemSettingsUpdatedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  committeeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  categoriesCreated?: Prisma.CategoryUncheckedUpdateManyWithoutCreatorNestedInput
+  itemsCreated?: Prisma.ItemUncheckedUpdateManyWithoutCreatorNestedInput
+  itemsUpdated?: Prisma.ItemUncheckedUpdateManyWithoutUpdaterNestedInput
+  borrowingRequestsSubmitted?: Prisma.BorrowingRequestUncheckedUpdateManyWithoutSubmitterNestedInput
+  borrowingRequestsApproved?: Prisma.BorrowingRequestUncheckedUpdateManyWithoutApproverNestedInput
+  borrowingRequestsRejected?: Prisma.BorrowingRequestUncheckedUpdateManyWithoutRejectorNestedInput
+  borrowingRequestsCancelled?: Prisma.BorrowingRequestUncheckedUpdateManyWithoutCancellerNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutPerformerNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+}
+
 export type UserCreateWithoutCategoriesCreatedInput = {
   id?: string
   username: string
@@ -813,6 +946,7 @@ export type UserCreateWithoutCategoriesCreatedInput = {
   inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutPerformerInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  systemSettingsUpdated?: Prisma.SystemSettingCreateNestedManyWithoutUpdaterInput
 }
 
 export type UserUncheckedCreateWithoutCategoriesCreatedInput = {
@@ -835,6 +969,7 @@ export type UserUncheckedCreateWithoutCategoriesCreatedInput = {
   inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutPerformerInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  systemSettingsUpdated?: Prisma.SystemSettingUncheckedCreateNestedManyWithoutUpdaterInput
 }
 
 export type UserCreateOrConnectWithoutCategoriesCreatedInput = {
@@ -873,6 +1008,7 @@ export type UserUpdateWithoutCategoriesCreatedInput = {
   inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutPerformerNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  systemSettingsUpdated?: Prisma.SystemSettingUpdateManyWithoutUpdaterNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCategoriesCreatedInput = {
@@ -895,6 +1031,7 @@ export type UserUncheckedUpdateWithoutCategoriesCreatedInput = {
   inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutPerformerNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  systemSettingsUpdated?: Prisma.SystemSettingUncheckedUpdateManyWithoutUpdaterNestedInput
 }
 
 export type UserCreateWithoutItemsCreatedInput = {
@@ -917,6 +1054,7 @@ export type UserCreateWithoutItemsCreatedInput = {
   inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutPerformerInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  systemSettingsUpdated?: Prisma.SystemSettingCreateNestedManyWithoutUpdaterInput
 }
 
 export type UserUncheckedCreateWithoutItemsCreatedInput = {
@@ -939,6 +1077,7 @@ export type UserUncheckedCreateWithoutItemsCreatedInput = {
   inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutPerformerInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  systemSettingsUpdated?: Prisma.SystemSettingUncheckedCreateNestedManyWithoutUpdaterInput
 }
 
 export type UserCreateOrConnectWithoutItemsCreatedInput = {
@@ -966,6 +1105,7 @@ export type UserCreateWithoutItemsUpdatedInput = {
   inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutPerformerInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  systemSettingsUpdated?: Prisma.SystemSettingCreateNestedManyWithoutUpdaterInput
 }
 
 export type UserUncheckedCreateWithoutItemsUpdatedInput = {
@@ -988,6 +1128,7 @@ export type UserUncheckedCreateWithoutItemsUpdatedInput = {
   inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutPerformerInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  systemSettingsUpdated?: Prisma.SystemSettingUncheckedCreateNestedManyWithoutUpdaterInput
 }
 
 export type UserCreateOrConnectWithoutItemsUpdatedInput = {
@@ -1026,6 +1167,7 @@ export type UserUpdateWithoutItemsCreatedInput = {
   inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutPerformerNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  systemSettingsUpdated?: Prisma.SystemSettingUpdateManyWithoutUpdaterNestedInput
 }
 
 export type UserUncheckedUpdateWithoutItemsCreatedInput = {
@@ -1048,6 +1190,7 @@ export type UserUncheckedUpdateWithoutItemsCreatedInput = {
   inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutPerformerNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  systemSettingsUpdated?: Prisma.SystemSettingUncheckedUpdateManyWithoutUpdaterNestedInput
 }
 
 export type UserUpsertWithoutItemsUpdatedInput = {
@@ -1081,6 +1224,7 @@ export type UserUpdateWithoutItemsUpdatedInput = {
   inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutPerformerNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  systemSettingsUpdated?: Prisma.SystemSettingUpdateManyWithoutUpdaterNestedInput
 }
 
 export type UserUncheckedUpdateWithoutItemsUpdatedInput = {
@@ -1103,6 +1247,7 @@ export type UserUncheckedUpdateWithoutItemsUpdatedInput = {
   inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutPerformerNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  systemSettingsUpdated?: Prisma.SystemSettingUncheckedUpdateManyWithoutUpdaterNestedInput
 }
 
 export type UserCreateWithoutBorrowingRequestsSubmittedInput = {
@@ -1125,6 +1270,7 @@ export type UserCreateWithoutBorrowingRequestsSubmittedInput = {
   inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutPerformerInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  systemSettingsUpdated?: Prisma.SystemSettingCreateNestedManyWithoutUpdaterInput
 }
 
 export type UserUncheckedCreateWithoutBorrowingRequestsSubmittedInput = {
@@ -1147,6 +1293,7 @@ export type UserUncheckedCreateWithoutBorrowingRequestsSubmittedInput = {
   inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutPerformerInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  systemSettingsUpdated?: Prisma.SystemSettingUncheckedCreateNestedManyWithoutUpdaterInput
 }
 
 export type UserCreateOrConnectWithoutBorrowingRequestsSubmittedInput = {
@@ -1174,6 +1321,7 @@ export type UserCreateWithoutBorrowingRequestsApprovedInput = {
   inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutPerformerInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  systemSettingsUpdated?: Prisma.SystemSettingCreateNestedManyWithoutUpdaterInput
 }
 
 export type UserUncheckedCreateWithoutBorrowingRequestsApprovedInput = {
@@ -1196,6 +1344,7 @@ export type UserUncheckedCreateWithoutBorrowingRequestsApprovedInput = {
   inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutPerformerInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  systemSettingsUpdated?: Prisma.SystemSettingUncheckedCreateNestedManyWithoutUpdaterInput
 }
 
 export type UserCreateOrConnectWithoutBorrowingRequestsApprovedInput = {
@@ -1223,6 +1372,7 @@ export type UserCreateWithoutBorrowingRequestsRejectedInput = {
   inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutPerformerInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  systemSettingsUpdated?: Prisma.SystemSettingCreateNestedManyWithoutUpdaterInput
 }
 
 export type UserUncheckedCreateWithoutBorrowingRequestsRejectedInput = {
@@ -1245,6 +1395,7 @@ export type UserUncheckedCreateWithoutBorrowingRequestsRejectedInput = {
   inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutPerformerInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  systemSettingsUpdated?: Prisma.SystemSettingUncheckedCreateNestedManyWithoutUpdaterInput
 }
 
 export type UserCreateOrConnectWithoutBorrowingRequestsRejectedInput = {
@@ -1272,6 +1423,7 @@ export type UserCreateWithoutBorrowingRequestsCancelledInput = {
   inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutPerformerInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  systemSettingsUpdated?: Prisma.SystemSettingCreateNestedManyWithoutUpdaterInput
 }
 
 export type UserUncheckedCreateWithoutBorrowingRequestsCancelledInput = {
@@ -1294,6 +1446,7 @@ export type UserUncheckedCreateWithoutBorrowingRequestsCancelledInput = {
   inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutPerformerInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  systemSettingsUpdated?: Prisma.SystemSettingUncheckedCreateNestedManyWithoutUpdaterInput
 }
 
 export type UserCreateOrConnectWithoutBorrowingRequestsCancelledInput = {
@@ -1332,6 +1485,7 @@ export type UserUpdateWithoutBorrowingRequestsSubmittedInput = {
   inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutPerformerNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  systemSettingsUpdated?: Prisma.SystemSettingUpdateManyWithoutUpdaterNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBorrowingRequestsSubmittedInput = {
@@ -1354,6 +1508,7 @@ export type UserUncheckedUpdateWithoutBorrowingRequestsSubmittedInput = {
   inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutPerformerNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  systemSettingsUpdated?: Prisma.SystemSettingUncheckedUpdateManyWithoutUpdaterNestedInput
 }
 
 export type UserUpsertWithoutBorrowingRequestsApprovedInput = {
@@ -1387,6 +1542,7 @@ export type UserUpdateWithoutBorrowingRequestsApprovedInput = {
   inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutPerformerNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  systemSettingsUpdated?: Prisma.SystemSettingUpdateManyWithoutUpdaterNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBorrowingRequestsApprovedInput = {
@@ -1409,6 +1565,7 @@ export type UserUncheckedUpdateWithoutBorrowingRequestsApprovedInput = {
   inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutPerformerNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  systemSettingsUpdated?: Prisma.SystemSettingUncheckedUpdateManyWithoutUpdaterNestedInput
 }
 
 export type UserUpsertWithoutBorrowingRequestsRejectedInput = {
@@ -1442,6 +1599,7 @@ export type UserUpdateWithoutBorrowingRequestsRejectedInput = {
   inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutPerformerNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  systemSettingsUpdated?: Prisma.SystemSettingUpdateManyWithoutUpdaterNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBorrowingRequestsRejectedInput = {
@@ -1464,6 +1622,7 @@ export type UserUncheckedUpdateWithoutBorrowingRequestsRejectedInput = {
   inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutPerformerNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  systemSettingsUpdated?: Prisma.SystemSettingUncheckedUpdateManyWithoutUpdaterNestedInput
 }
 
 export type UserUpsertWithoutBorrowingRequestsCancelledInput = {
@@ -1497,6 +1656,7 @@ export type UserUpdateWithoutBorrowingRequestsCancelledInput = {
   inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutPerformerNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  systemSettingsUpdated?: Prisma.SystemSettingUpdateManyWithoutUpdaterNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBorrowingRequestsCancelledInput = {
@@ -1519,6 +1679,7 @@ export type UserUncheckedUpdateWithoutBorrowingRequestsCancelledInput = {
   inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutPerformerNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  systemSettingsUpdated?: Prisma.SystemSettingUncheckedUpdateManyWithoutUpdaterNestedInput
 }
 
 export type UserCreateWithoutInventoryTransactionsInput = {
@@ -1541,6 +1702,7 @@ export type UserCreateWithoutInventoryTransactionsInput = {
   borrowingRequestsCancelled?: Prisma.BorrowingRequestCreateNestedManyWithoutCancellerInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  systemSettingsUpdated?: Prisma.SystemSettingCreateNestedManyWithoutUpdaterInput
 }
 
 export type UserUncheckedCreateWithoutInventoryTransactionsInput = {
@@ -1563,6 +1725,7 @@ export type UserUncheckedCreateWithoutInventoryTransactionsInput = {
   borrowingRequestsCancelled?: Prisma.BorrowingRequestUncheckedCreateNestedManyWithoutCancellerInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  systemSettingsUpdated?: Prisma.SystemSettingUncheckedCreateNestedManyWithoutUpdaterInput
 }
 
 export type UserCreateOrConnectWithoutInventoryTransactionsInput = {
@@ -1601,6 +1764,7 @@ export type UserUpdateWithoutInventoryTransactionsInput = {
   borrowingRequestsCancelled?: Prisma.BorrowingRequestUpdateManyWithoutCancellerNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  systemSettingsUpdated?: Prisma.SystemSettingUpdateManyWithoutUpdaterNestedInput
 }
 
 export type UserUncheckedUpdateWithoutInventoryTransactionsInput = {
@@ -1623,6 +1787,7 @@ export type UserUncheckedUpdateWithoutInventoryTransactionsInput = {
   borrowingRequestsCancelled?: Prisma.BorrowingRequestUncheckedUpdateManyWithoutCancellerNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  systemSettingsUpdated?: Prisma.SystemSettingUncheckedUpdateManyWithoutUpdaterNestedInput
 }
 
 export type UserCreateWithoutAuditLogsInput = {
@@ -1645,6 +1810,7 @@ export type UserCreateWithoutAuditLogsInput = {
   borrowingRequestsCancelled?: Prisma.BorrowingRequestCreateNestedManyWithoutCancellerInput
   inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutPerformerInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  systemSettingsUpdated?: Prisma.SystemSettingCreateNestedManyWithoutUpdaterInput
 }
 
 export type UserUncheckedCreateWithoutAuditLogsInput = {
@@ -1667,6 +1833,7 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   borrowingRequestsCancelled?: Prisma.BorrowingRequestUncheckedCreateNestedManyWithoutCancellerInput
   inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutPerformerInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  systemSettingsUpdated?: Prisma.SystemSettingUncheckedCreateNestedManyWithoutUpdaterInput
 }
 
 export type UserCreateOrConnectWithoutAuditLogsInput = {
@@ -1705,6 +1872,7 @@ export type UserUpdateWithoutAuditLogsInput = {
   borrowingRequestsCancelled?: Prisma.BorrowingRequestUpdateManyWithoutCancellerNestedInput
   inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutPerformerNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  systemSettingsUpdated?: Prisma.SystemSettingUpdateManyWithoutUpdaterNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAuditLogsInput = {
@@ -1727,6 +1895,7 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   borrowingRequestsCancelled?: Prisma.BorrowingRequestUncheckedUpdateManyWithoutCancellerNestedInput
   inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutPerformerNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  systemSettingsUpdated?: Prisma.SystemSettingUncheckedUpdateManyWithoutUpdaterNestedInput
 }
 
 export type UserCreateWithoutRefreshTokensInput = {
@@ -1749,6 +1918,7 @@ export type UserCreateWithoutRefreshTokensInput = {
   borrowingRequestsCancelled?: Prisma.BorrowingRequestCreateNestedManyWithoutCancellerInput
   inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutPerformerInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  systemSettingsUpdated?: Prisma.SystemSettingCreateNestedManyWithoutUpdaterInput
 }
 
 export type UserUncheckedCreateWithoutRefreshTokensInput = {
@@ -1771,6 +1941,7 @@ export type UserUncheckedCreateWithoutRefreshTokensInput = {
   borrowingRequestsCancelled?: Prisma.BorrowingRequestUncheckedCreateNestedManyWithoutCancellerInput
   inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutPerformerInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  systemSettingsUpdated?: Prisma.SystemSettingUncheckedCreateNestedManyWithoutUpdaterInput
 }
 
 export type UserCreateOrConnectWithoutRefreshTokensInput = {
@@ -1809,6 +1980,7 @@ export type UserUpdateWithoutRefreshTokensInput = {
   borrowingRequestsCancelled?: Prisma.BorrowingRequestUpdateManyWithoutCancellerNestedInput
   inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutPerformerNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  systemSettingsUpdated?: Prisma.SystemSettingUpdateManyWithoutUpdaterNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRefreshTokensInput = {
@@ -1831,6 +2003,7 @@ export type UserUncheckedUpdateWithoutRefreshTokensInput = {
   borrowingRequestsCancelled?: Prisma.BorrowingRequestUncheckedUpdateManyWithoutCancellerNestedInput
   inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutPerformerNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  systemSettingsUpdated?: Prisma.SystemSettingUncheckedUpdateManyWithoutUpdaterNestedInput
 }
 
 export type UserCreateManyCommitteeInput = {
@@ -1865,6 +2038,7 @@ export type UserUpdateWithoutCommitteeInput = {
   inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutPerformerNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  systemSettingsUpdated?: Prisma.SystemSettingUpdateManyWithoutUpdaterNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommitteeInput = {
@@ -1887,6 +2061,7 @@ export type UserUncheckedUpdateWithoutCommitteeInput = {
   inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutPerformerNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  systemSettingsUpdated?: Prisma.SystemSettingUncheckedUpdateManyWithoutUpdaterNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutCommitteeInput = {
@@ -1917,6 +2092,7 @@ export type UserCountOutputType = {
   inventoryTransactions: number
   auditLogs: number
   refreshTokens: number
+  systemSettingsUpdated: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1930,6 +2106,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   inventoryTransactions?: boolean | UserCountOutputTypeCountInventoryTransactionsArgs
   auditLogs?: boolean | UserCountOutputTypeCountAuditLogsArgs
   refreshTokens?: boolean | UserCountOutputTypeCountRefreshTokensArgs
+  systemSettingsUpdated?: boolean | UserCountOutputTypeCountSystemSettingsUpdatedArgs
 }
 
 /**
@@ -2012,6 +2189,13 @@ export type UserCountOutputTypeCountRefreshTokensArgs<ExtArgs extends runtime.Ty
   where?: Prisma.RefreshTokenWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountSystemSettingsUpdatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SystemSettingWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2035,6 +2219,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   inventoryTransactions?: boolean | Prisma.User$inventoryTransactionsArgs<ExtArgs>
   auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
   refreshTokens?: boolean | Prisma.User$refreshTokensArgs<ExtArgs>
+  systemSettingsUpdated?: boolean | Prisma.User$systemSettingsUpdatedArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -2092,6 +2277,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   inventoryTransactions?: boolean | Prisma.User$inventoryTransactionsArgs<ExtArgs>
   auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
   refreshTokens?: boolean | Prisma.User$refreshTokensArgs<ExtArgs>
+  systemSettingsUpdated?: boolean | Prisma.User$systemSettingsUpdatedArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2115,6 +2301,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     inventoryTransactions: Prisma.$InventoryTransactionPayload<ExtArgs>[]
     auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
     refreshTokens: Prisma.$RefreshTokenPayload<ExtArgs>[]
+    systemSettingsUpdated: Prisma.$SystemSettingPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2532,6 +2719,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   inventoryTransactions<T extends Prisma.User$inventoryTransactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$inventoryTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InventoryTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   auditLogs<T extends Prisma.User$auditLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   refreshTokens<T extends Prisma.User$refreshTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$refreshTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RefreshTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  systemSettingsUpdated<T extends Prisma.User$systemSettingsUpdatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$systemSettingsUpdatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SystemSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3228,6 +3416,30 @@ export type User$refreshTokensArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.RefreshTokenScalarFieldEnum | Prisma.RefreshTokenScalarFieldEnum[]
+}
+
+/**
+ * User.systemSettingsUpdated
+ */
+export type User$systemSettingsUpdatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SystemSetting
+   */
+  select?: Prisma.SystemSettingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SystemSetting
+   */
+  omit?: Prisma.SystemSettingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SystemSettingInclude<ExtArgs> | null
+  where?: Prisma.SystemSettingWhereInput
+  orderBy?: Prisma.SystemSettingOrderByWithRelationInput | Prisma.SystemSettingOrderByWithRelationInput[]
+  cursor?: Prisma.SystemSettingWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SystemSettingScalarFieldEnum | Prisma.SystemSettingScalarFieldEnum[]
 }
 
 /**

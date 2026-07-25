@@ -62,6 +62,16 @@ export interface CommitteeAccount {
   updatedAt: string
 }
 
+export interface SystemSettings {
+  id: string
+  siteaoGovernorName: string
+  updatedAt: string | null
+  updater: {
+    id: string
+    username: string
+  } | null
+}
+
 export interface InventoryItem {
   id: string
   itemCode: string

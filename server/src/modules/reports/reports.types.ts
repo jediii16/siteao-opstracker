@@ -37,7 +37,10 @@ export interface InventoryReportMetadata {
   dateOfInventory: string
   conductedBy: "Logistics Team"
   preparedBy: "Logistics Team"
-  notedBy: "SITEAO Governor"
+  notedBy: {
+    name: string
+    title: "SITEAO Governor"
+  }
 }
 
 export interface InventoryReportSummary {

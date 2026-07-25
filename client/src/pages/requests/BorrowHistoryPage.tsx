@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { PageHeader } from '@/components/common/PageHeader'
+import { AppSelect } from '@/components/common/AppSelect'
 import { PaginationControls } from '@/components/common/PaginationControls'
 import { ServerDataTable, type ServerTableColumn } from '@/components/common/ServerDataTable'
 import { StatusBadge } from '@/components/common/StatusBadge'
@@ -147,21 +148,19 @@ export function BorrowHistoryPage() {
               className="pl-9"
             />
           </div>
-          <select
+          <AppSelect
             value={status}
-            onChange={(event) => {
-              setStatus(event.target.value)
+            onValueChange={(value) => {
+              setStatus(value)
               setPage(1)
               setIsLoading(true)
             }}
-            aria-label="Filter borrowing history status"
-            className="h-9 rounded-md border border-input bg-background px-3 text-sm"
-          >
-            <option value="">All statuses</option>
-            {(['APPROVED', 'BORROWED', 'RETURNED', 'REJECTED', 'CANCELLED'] as RequestStatus[]).map((value) => (
-              <option key={value} value={value}>{value}</option>
-            ))}
-          </select>
+            ariaLabel="Filter borrowing history status"
+            emptyLabel="All statuses"
+            options={(
+              ['APPROVED', 'BORROWED', 'RETURNED', 'REJECTED', 'CANCELLED'] as RequestStatus[]
+            ).map((value) => ({ value, label: value }))}
+          />
         </CardContent>
         <ServerDataTable
           rows={history}

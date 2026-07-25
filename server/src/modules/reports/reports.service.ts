@@ -7,6 +7,7 @@ import { createInventoryReportCsv } from "./csv/inventory-report.csv.js"
 import { createInventoryReportPdf } from "./pdf/inventory-report.pdf.js"
 import { inventoryReportConfig } from "./reports.config.js"
 import * as reportsRepository from "./reports.repository.js"
+import { getSystemSettings } from "../system-settings/system-settings.service.js"
 import type {
   InventoryReportActor,
   InventoryReportDataset,
@@ -41,13 +42,19 @@ function dateParts(now: Date) {
   }
 }
 
-function createMetadata(now: Date): InventoryReportMetadata {
+function createMetadata(
+  now: Date,
+  siteaoGovernorName: string,
+): InventoryReportMetadata {
   return {
     title: "INVENTORY REPORT",
     dateOfInventory: dateParts(now).readableDate,
     conductedBy: inventoryReportConfig.conductedBy,
     preparedBy: inventoryReportConfig.preparedBy.name,
-    notedBy: inventoryReportConfig.notedBy.title,
+    notedBy: {
+      name: siteaoGovernorName,
+      title: inventoryReportConfig.notedBy.title,
+    },
   }
 }
 
@@ -171,7 +178,7 @@ export async function generateInventoryReport(
     isActive: query.isActive,
   }
   const isJson = query.format === "json"
-  const [items, aggregate] = await Promise.all([
+  const [items, aggregate, systemSettings] = await Promise.all([
     reportsRepository.findInventoryReportItems({
       ...filters,
       sortBy: query.sortBy,
@@ -180,10 +187,11 @@ export async function generateInventoryReport(
       take: isJson ? query.limit : undefined,
     }),
     reportsRepository.aggregateInventoryReportSummary(filters),
+    getSystemSettings(),
   ])
   const now = new Date()
   const dataset: InventoryReportDataset = {
-    report: createMetadata(now),
+    report: createMetadata(now, systemSettings.siteaoGovernorName),
     summary: mapSummary(aggregate),
     items: items.map(mapItem),
     generatedAt: now.toISOString(),

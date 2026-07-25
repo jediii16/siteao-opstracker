@@ -53,6 +53,7 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   Committee: 'Committee',
   User: 'User',
+  SystemSetting: 'SystemSetting',
   Category: 'Category',
   Item: 'Item',
   BorrowingRequest: 'BorrowingRequest',
@@ -104,6 +105,17 @@ export const UserScalarFieldEnum = {
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const SystemSettingScalarFieldEnum = {
+  id: 'id',
+  siteaoGovernorName: 'siteaoGovernorName',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SystemSettingScalarFieldEnum = (typeof SystemSettingScalarFieldEnum)[keyof typeof SystemSettingScalarFieldEnum]
 
 
 export const CategoryScalarFieldEnum = {

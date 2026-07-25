@@ -1,4 +1,3 @@
-import { inventoryReportConfig } from "../../reports.config.js"
 import type { InventoryReportDataset } from "../../reports.types.js"
 
 function escapeHtml(value: string | number): string {
@@ -31,13 +30,6 @@ export function createInventoryReportHtml(
             `,
           )
           .join("")
-
-  const preparedTitle = inventoryReportConfig.preparedBy.title
-    ? `<div class="signature-title">${escapeHtml(inventoryReportConfig.preparedBy.title)}</div>`
-    : ""
-  const notedTitle = inventoryReportConfig.notedBy.title
-    ? `<div class="signature-title">${escapeHtml(inventoryReportConfig.notedBy.title)}</div>`
-    : ""
 
   return `<!doctype html>
 <html lang="en">
@@ -219,7 +211,7 @@ export function createInventoryReportHtml(
       <tr>
         <td class="label">CONDUCTED BY</td>
         <td class="colon">:</td>
-        <td>${escapeHtml(inventoryReportConfig.conductedBy)}</td>
+        <td>${escapeHtml(dataset.report.conductedBy)}</td>
       </tr>
     </table>
 
@@ -240,15 +232,14 @@ export function createInventoryReportHtml(
       <div class="signature-block">
         <div class="signature-label">Prepared by:</div>
         <div class="signature-identity">
-          <div class="signature-name">${escapeHtml(inventoryReportConfig.preparedBy.name)}</div>
-          ${preparedTitle}
+          <div class="signature-name">${escapeHtml(dataset.report.preparedBy)}</div>
         </div>
       </div>
       <div class="signature-block">
         <div class="signature-label">Noted by:</div>
         <div class="signature-identity">
-          <div class="signature-name">${escapeHtml(inventoryReportConfig.notedBy.name)}</div>
-          ${notedTitle}
+          <div class="signature-name">${escapeHtml(dataset.report.notedBy.name)}</div>
+          <div class="signature-title">${escapeHtml(dataset.report.notedBy.title)}</div>
         </div>
       </div>
     </section>

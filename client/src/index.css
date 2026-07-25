@@ -76,6 +76,10 @@
   --info-foreground: #0c1a4d;
   --brand-gradient-primary: linear-gradient(90deg, #ff0d01, #fce003);
   --brand-gradient-secondary: linear-gradient(135deg, #48adbf, #0c1a4d);
+  --auth-panel-background:
+    radial-gradient(circle at 8% 18%, rgb(255 68 0 / 0.07), transparent 26rem),
+    linear-gradient(110deg, #fffdfa 0%, #fefefe 55%, #f3f7ff 100%);
+  --auth-hero-background: linear-gradient(145deg, #0c1a4d 0%, #102768 56%, #071137 100%);
 }
 
 .dark {
@@ -107,6 +111,9 @@
   --warning-foreground: #211400;
   --info: #62bfd0;
   --info-foreground: #07151a;
+  --auth-panel-background:
+    radial-gradient(circle at 8% 18%, rgb(255 106 56 / 0.08), transparent 26rem),
+    linear-gradient(110deg, #10121a 0%, #0e111a 58%, #101a30 100%);
 }
 
 @layer base {
@@ -130,6 +137,25 @@
 }
 
 @layer utilities {
+  .auth-input:-webkit-autofill,
+  .auth-input:-webkit-autofill:hover,
+  .auth-input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--foreground);
+    caret-color: var(--foreground);
+    -webkit-box-shadow:
+      0 0 0 1000px color-mix(in srgb, var(--background) 94%, var(--primary) 6%)
+      inset;
+    transition: background-color 9999s ease-out;
+  }
+
+  .dark .auth-input:-webkit-autofill,
+  .dark .auth-input:-webkit-autofill:hover,
+  .dark .auth-input:-webkit-autofill:focus {
+    -webkit-box-shadow:
+      0 0 0 1000px color-mix(in srgb, var(--card) 88%, var(--primary) 12%)
+      inset;
+  }
+
   .font-heading {
     font-family: var(--font-heading);
   }
@@ -144,5 +170,16 @@
 
   .brand-gradient-secondary {
     background-image: var(--brand-gradient-secondary);
+  }
+
+  .auth-panel-surface {
+    background: var(--auth-panel-background);
+  }
+
+  .auth-hero-surface {
+    background: var(--auth-hero-background);
+    box-shadow:
+      inset 1px 0 rgb(255 255 255 / 0.08),
+      -24px 0 64px rgb(12 26 77 / 0.1);
   }
 }

@@ -4,6 +4,7 @@ import { useEffect, useState, type FormEvent } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
 import { ConfirmationDialog } from '@/components/common/ConfirmationDialog'
+import { AppSelect } from '@/components/common/AppSelect'
 import { PageHeader } from '@/components/common/PageHeader'
 import { StatusBadge } from '@/components/common/StatusBadge'
 import { FullPageError } from '@/components/states/FullPageError'
@@ -310,22 +311,24 @@ export function RequestDetailsPage() {
                 <Label htmlFor="return-condition">
                   Return condition *
                 </Label>
-                <select
+                <AppSelect
                   id="return-condition"
                   value={returnCondition}
-                  onChange={(event) =>
-                    setReturnCondition(
-                      event.target.value as ReturnCondition,
-                    )
+                  onValueChange={(value) =>
+                    setReturnCondition(value as ReturnCondition)
                   }
                   disabled={isSaving}
-                  className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
-                >
-                  <option value="GOOD">Good</option>
-                  <option value="FAIR">Fair</option>
-                  <option value="DAMAGED">Damaged</option>
-                  <option value="LOST">Lost</option>
-                </select>
+                  ariaLabel="Select return condition"
+                  emptyLabel="Select a condition"
+                  allowEmpty={false}
+                  className="h-10"
+                  options={[
+                    { value: 'GOOD', label: 'Good' },
+                    { value: 'FAIR', label: 'Fair' },
+                    { value: 'DAMAGED', label: 'Damaged' },
+                    { value: 'LOST', label: 'Lost' },
+                  ]}
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="return-notes">Return notes</Label>

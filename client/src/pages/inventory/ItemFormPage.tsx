@@ -1,9 +1,10 @@
 import axios from 'axios'
-import { ArrowLeft, LoaderCircle, Save } from 'lucide-react'
+import { ArrowLeft, BadgeInfo, LoaderCircle, Save } from 'lucide-react'
 import { useEffect, useState, type FormEvent } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
 import { PageHeader } from '@/components/common/PageHeader'
+import { AppSelect } from '@/components/common/AppSelect'
 import { InlineError } from '@/components/states/InlineError'
 import { PageLoading } from '@/components/states/PageLoading'
 import { Button } from '@/components/ui/button'
@@ -111,7 +112,6 @@ export function ItemFormPage() {
     const totalQuantity = Number(form.totalQuantity)
 
     if (
-      !form.itemCode.trim() ||
       !form.itemName.trim() ||
       !form.categoryId ||
       !form.storageLocation.trim() ||
@@ -123,7 +123,6 @@ export function ItemFormPage() {
     }
 
     const input: ItemInput = {
-      itemCode: form.itemCode.trim(),
       itemName: form.itemName.trim(),
       description: form.description.trim() || null,
       categoryId: form.categoryId,
@@ -149,6 +148,9 @@ export function ItemFormPage() {
           : await itemService.create(input)
       notify({
         title: response.message ?? `Inventory item ${isEditing ? 'updated' : 'created'}.`,
+        description: isEditing
+          ? undefined
+          : `Item code ${response.data.item.itemCode} was assigned automatically.`,
       })
       navigate('/logistics/inventory', { replace: true })
     } catch (saveError) {
@@ -168,7 +170,11 @@ export function ItemFormPage() {
     <div className="space-y-6">
       <PageHeader
         title={isEditing ? 'Edit Inventory Item' : 'Add Inventory Item'}
-        description="Use backend-validated inventory fields and current SITEAO categories."
+        description={
+          isEditing
+            ? 'Update the item details. Its system-generated item code stays the same.'
+            : 'Add the item details and the system will assign its item code.'
+        }
         actions={
           <Button asChild variant="outline">
             <Link to="/logistics/inventory">
@@ -185,16 +191,27 @@ export function ItemFormPage() {
           </CardHeader>
           <CardContent className="grid gap-5 md:grid-cols-2">
             {error ? <div className="md:col-span-2"><InlineError message={error} /></div> : null}
-            <div className="space-y-2">
-              <Label htmlFor="item-code">Item code *</Label>
-              <Input
-                id="item-code"
-                value={form.itemCode}
-                onChange={(event) => updateField('itemCode', event.target.value)}
-                disabled={isLoading || isSaving}
-                required
-              />
-            </div>
+            {isEditing ? (
+              <div className="space-y-2">
+                <Label htmlFor="item-code">Item code</Label>
+                <Input
+                  id="item-code"
+                  value={form.itemCode}
+                  readOnly
+                  className="bg-muted/50 font-mono"
+                />
+              </div>
+            ) : (
+              <div className="flex items-start gap-3 rounded-lg border border-primary/20 bg-primary/5 p-4 md:col-span-2">
+                <BadgeInfo className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
+                <div>
+                  <p className="text-sm font-medium">Item code generated automatically</p>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    A permanent item code will be assigned after you save this item.
+                  </p>
+                </div>
+              </div>
+            )}
             <div className="space-y-2">
               <Label htmlFor="item-name">Item name *</Label>
               <Input
@@ -207,25 +224,20 @@ export function ItemFormPage() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="item-category">Category *</Label>
-              <select
+              <AppSelect
                 id="item-category"
                 value={form.categoryId}
-                onChange={(event) => updateField('categoryId', event.target.value)}
+                onValueChange={(value) => updateField('categoryId', value)}
                 disabled={isLoading || isSaving}
-                className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm"
-                required
-              >
-                <option value="">Select a category</option>
-                {categories.map((category) => (
-                  <option
-                    key={category.id}
-                    value={category.id}
-                    disabled={!category.isActive && category.id !== originalCategoryId}
-                  >
-                    {category.name}{category.isActive ? '' : ' (inactive)'}
-                  </option>
-                ))}
-              </select>
+                ariaLabel="Select item category"
+                emptyLabel="Select a category"
+                allowEmpty={false}
+                options={categories.map((category) => ({
+                  value: category.id,
+                  label: `${category.name}${category.isActive ? '' : ' (inactive)'}`,
+                  disabled: !category.isActive && category.id !== originalCategoryId,
+                }))}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="item-quantity">Total quantity *</Label>
@@ -242,19 +254,21 @@ export function ItemFormPage() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="item-condition">Condition *</Label>
-              <select
+              <AppSelect
                 id="item-condition"
                 value={form.condition}
-                onChange={(event) => updateField('condition', event.target.value as ItemCondition)}
+                onValueChange={(value) =>
+                  updateField('condition', value as ItemCondition)
+                }
                 disabled={isLoading || isSaving}
-                className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm"
-              >
-                {conditions.map((condition) => (
-                  <option key={condition} value={condition}>
-                    {condition.replaceAll('_', ' ')}
-                  </option>
-                ))}
-              </select>
+                ariaLabel="Select item condition"
+                emptyLabel="Select a condition"
+                allowEmpty={false}
+                options={conditions.map((condition) => ({
+                  value: condition,
+                  label: condition.replaceAll('_', ' '),
+                }))}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="item-location">Storage location *</Label>

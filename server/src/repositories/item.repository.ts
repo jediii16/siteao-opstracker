@@ -69,7 +69,6 @@ export interface CreateItemData {
 }
 
 export interface UpdateItemData {
-  itemCode?: string
   categoryId?: string
   itemName?: string
   description?: string | null
@@ -156,18 +155,6 @@ export function count(filters: ItemFilters) {
 export function findById(id: string) {
   return prisma.item.findUnique({
     where: { id },
-    select: itemSelect,
-  })
-}
-
-export function findByItemCode(itemCode: string) {
-  return prisma.item.findFirst({
-    where: {
-      itemCode: {
-        equals: itemCode,
-        mode: "insensitive",
-      },
-    },
     select: itemSelect,
   })
 }

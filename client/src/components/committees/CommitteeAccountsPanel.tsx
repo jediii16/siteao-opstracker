@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import axios from 'axios'
 
 import { ConfirmationDialog } from '@/components/common/ConfirmationDialog'
+import { AppSelect } from '@/components/common/AppSelect'
 import { PaginationControls } from '@/components/common/PaginationControls'
 import { ServerDataTable, type ServerTableColumn } from '@/components/common/ServerDataTable'
 import { StatusBadge } from '@/components/common/StatusBadge'
@@ -319,18 +320,19 @@ export function CommitteeAccountsPanel({ committees }: CommitteeAccountsPanelPro
               {dialogMode === 'create' ? (
                 <div className="space-y-2">
                   <Label htmlFor="account-committee">Committee *</Label>
-                  <select
+                  <AppSelect
                     id="account-committee"
                     value={committeeId}
-                    onChange={(event) => setCommitteeId(event.target.value)}
+                    onValueChange={setCommitteeId}
                     disabled={isSaving}
-                    className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm"
-                    required
-                  >
-                    {availableCommittees.map((committee) => (
-                      <option key={committee.id} value={committee.id}>{committee.name}</option>
-                    ))}
-                  </select>
+                    ariaLabel="Select committee"
+                    emptyLabel="Select a committee"
+                    allowEmpty={false}
+                    options={availableCommittees.map((committee) => ({
+                      value: committee.id,
+                      label: committee.name,
+                    }))}
+                  />
                 </div>
               ) : null}
               {dialogMode === 'create' || dialogMode === 'reset' ? (

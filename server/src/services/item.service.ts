@@ -1,3 +1,5 @@
+import { randomUUID } from "node:crypto"
+
 import { Prisma } from "../generated/prisma/client.js"
 import * as auditRepository from "../repositories/audit.repository.js"
 import * as itemRepository from "../repositories/item.repository.js"
@@ -46,10 +48,6 @@ function toAuditValues(item: ItemRecord): Prisma.InputJsonObject {
   }
 }
 
-function duplicateItemCodeError(): AppError {
-  return new AppError(409, "An item with this item code already exists.")
-}
-
 function unsafeDeactivationError(): AppError {
   return new AppError(
     409,
@@ -62,10 +60,22 @@ function handleUniqueConstraint(error: unknown): never {
     error instanceof Prisma.PrismaClientKnownRequestError &&
     error.code === "P2002"
   ) {
-    throw duplicateItemCodeError()
+    throw new AppError(
+      409,
+      "A unique item code could not be generated. Please try again.",
+    )
   }
 
   throw error
+}
+
+function generateItemCode(): string {
+  const identifier = randomUUID()
+    .replaceAll("-", "")
+    .slice(0, 10)
+    .toUpperCase()
+
+  return `ITM-${identifier}`
 }
 
 async function requireItem(id: string) {
@@ -193,17 +203,10 @@ export async function createItem(
   input: CreateItemInput,
   auditContext: ItemAuditContext,
 ) {
-  const itemCode = input.itemCode.trim()
   await requireActiveCategory(input.categoryId)
 
-  const duplicate = await itemRepository.findByItemCode(itemCode)
-
-  if (duplicate) {
-    throw duplicateItemCodeError()
-  }
-
   const data: itemRepository.CreateItemData = {
-    itemCode,
+    itemCode: generateItemCode(),
     itemName: input.itemName.trim(),
     description: normalizeNullableString(input.description) ?? null,
     categoryId: input.categoryId,
@@ -248,15 +251,6 @@ export async function updateItem(
   const existingItem = await requireItem(id)
   const data: itemRepository.UpdateItemData = {
     updatedBy: auditContext.userId,
-  }
-
-  if (input.itemCode !== undefined) {
-    data.itemCode = input.itemCode.trim()
-    const duplicate = await itemRepository.findByItemCode(data.itemCode)
-
-    if (duplicate && duplicate.id !== id) {
-      throw duplicateItemCodeError()
-    }
   }
 
   if (input.itemName !== undefined) {

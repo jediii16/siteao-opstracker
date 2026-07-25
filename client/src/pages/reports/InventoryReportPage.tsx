@@ -8,6 +8,7 @@ import {
   PackageSearch,
   RefreshCw,
   Search,
+  UserRoundCheck,
   Users,
 } from 'lucide-react'
 import { useEffect, useState, type FormEvent } from 'react'
@@ -560,7 +561,7 @@ export function InventoryReportPage() {
       </section>
 
       <Card className="gap-0 py-0">
-        <CardContent className="grid gap-4 border-b p-4 sm:grid-cols-2">
+        <CardContent className="grid gap-4 border-b p-4 sm:grid-cols-2 xl:grid-cols-3">
           <div className="flex items-start gap-3">
             <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
               <CalendarDays className="size-4" aria-hidden="true" />
@@ -581,6 +582,22 @@ export function InventoryReportPage() {
                 Conducted By
               </p>
               <p className="mt-1 text-sm font-medium">{report?.report.conductedBy ?? '—'}</p>
+            </div>
+          </div>
+          <div className="flex items-start gap-3 sm:col-span-2 xl:col-span-1">
+            <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <UserRoundCheck className="size-4" aria-hidden="true" />
+            </span>
+            <div>
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                Noted By
+              </p>
+              <p className="mt-1 text-sm font-medium">
+                {report?.report.notedBy.name ?? '—'}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                {report?.report.notedBy.title ?? 'SITEAO Governor'}
+              </p>
             </div>
           </div>
         </CardContent>

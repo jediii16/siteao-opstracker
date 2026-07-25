@@ -28,6 +28,11 @@ export type Committee = Prisma.CommitteeModel
  */
 export type User = Prisma.UserModel
 /**
+ * Model SystemSetting
+ * 
+ */
+export type SystemSetting = Prisma.SystemSettingModel
+/**
  * Model Category
  * 
  */

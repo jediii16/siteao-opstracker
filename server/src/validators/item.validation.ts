@@ -2,12 +2,6 @@ import { z } from "zod"
 
 import { ItemCondition } from "../generated/prisma/enums.js"
 
-const itemCode = z
-  .string()
-  .trim()
-  .min(2, "Item code must contain at least 2 characters.")
-  .max(50, "Item code must not exceed 50 characters.")
-
 const itemName = z
   .string()
   .trim()
@@ -83,7 +77,6 @@ export const itemIdSchema = {
 export const createItemSchema = {
   body: z
     .object({
-      itemCode,
       itemName,
       description: z.string().trim().nullable().optional(),
       categoryId: z.string().uuid("Category ID must be a valid UUID."),
@@ -99,7 +92,6 @@ export const updateItemSchema = {
   params: itemIdSchema.params,
   body: z
     .object({
-      itemCode: itemCode.optional(),
       itemName: itemName.optional(),
       description: z.string().trim().nullable().optional(),
       categoryId: z

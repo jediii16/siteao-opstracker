@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { ConfirmationDialog } from '@/components/common/ConfirmationDialog'
+import { AppSelect } from '@/components/common/AppSelect'
 import { PageHeader } from '@/components/common/PageHeader'
 import { PaginationControls } from '@/components/common/PaginationControls'
 import {
@@ -271,43 +272,37 @@ export function InventoryPage() {
               className="pl-9"
             />
           </div>
-          <select
+          <AppSelect
             value={categoryId}
-            onChange={(event) => updateFilter(setCategoryId, event.target.value)}
-            aria-label="Filter by category"
-            className="h-9 rounded-md border border-input bg-background px-3 text-sm"
-          >
-            <option value="">All categories</option>
-            {categories.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-          <select
+            onValueChange={(value) => updateFilter(setCategoryId, value)}
+            ariaLabel="Filter by category"
+            emptyLabel="All categories"
+            options={categories.map((category) => ({
+              value: category.id,
+              label: category.name,
+            }))}
+          />
+          <AppSelect
             value={condition}
-            onChange={(event) => updateFilter(setCondition, event.target.value)}
-            aria-label="Filter by condition"
-            className="h-9 rounded-md border border-input bg-background px-3 text-sm"
-          >
-            <option value="">All conditions</option>
-            {conditions.map((value) => (
-              <option key={value} value={value}>
-                {formatCondition(value)}
-              </option>
-            ))}
-          </select>
+            onValueChange={(value) => updateFilter(setCondition, value)}
+            ariaLabel="Filter by condition"
+            emptyLabel="All conditions"
+            options={conditions.map((value) => ({
+              value,
+              label: formatCondition(value),
+            }))}
+          />
           {isAdmin ? (
-            <select
+            <AppSelect
               value={activeFilter}
-              onChange={(event) => updateFilter(setActiveFilter, event.target.value)}
-              aria-label="Filter by active status"
-              className="h-9 rounded-md border border-input bg-background px-3 text-sm"
-            >
-              <option value="">All statuses</option>
-              <option value="true">Active</option>
-              <option value="false">Inactive</option>
-            </select>
+              onValueChange={(value) => updateFilter(setActiveFilter, value)}
+              ariaLabel="Filter by active status"
+              emptyLabel="All statuses"
+              options={[
+                { value: 'true', label: 'Active' },
+                { value: 'false', label: 'Inactive' },
+              ]}
+            />
           ) : null}
         </CardContent>
         <ServerDataTable

@@ -3,6 +3,7 @@ import { Eye, Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 import { PageHeader } from '@/components/common/PageHeader'
+import { AppSelect } from '@/components/common/AppSelect'
 import { PaginationControls } from '@/components/common/PaginationControls'
 import {
   ServerDataTable,
@@ -240,32 +241,26 @@ export function AuditLogsPage() {
               className="pl-9"
             />
           </div>
-          <select
+          <AppSelect
             value={action}
-            onChange={(event) => updateFilter(setAction, event.target.value)}
-            aria-label="Filter audit action"
-            className="h-9 rounded-md border border-input bg-background px-3 text-sm"
-          >
-            <option value="">All actions</option>
-            {availableActions.map((availableAction) => (
-              <option key={availableAction} value={availableAction}>
-                {readableLabel(availableAction)}
-              </option>
-            ))}
-          </select>
-          <select
+            onValueChange={(value) => updateFilter(setAction, value)}
+            ariaLabel="Filter audit action"
+            emptyLabel="All actions"
+            options={availableActions.map((availableAction) => ({
+              value: availableAction,
+              label: readableLabel(availableAction),
+            }))}
+          />
+          <AppSelect
             value={entityType}
-            onChange={(event) => updateFilter(setEntityType, event.target.value)}
-            aria-label="Filter entity type"
-            className="h-9 rounded-md border border-input bg-background px-3 text-sm"
-          >
-            <option value="">All entity types</option>
-            {availableEntityTypes.map((availableEntityType) => (
-              <option key={availableEntityType} value={availableEntityType}>
-                {readableLabel(availableEntityType)}
-              </option>
-            ))}
-          </select>
+            onValueChange={(value) => updateFilter(setEntityType, value)}
+            ariaLabel="Filter entity type"
+            emptyLabel="All entity types"
+            options={availableEntityTypes.map((availableEntityType) => ({
+              value: availableEntityType,
+              label: readableLabel(availableEntityType),
+            }))}
+          />
           <Input
             type="date"
             value={dateFrom}

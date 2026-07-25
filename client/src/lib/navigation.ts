@@ -9,8 +9,8 @@ import {
   LayoutDashboard,
   NotebookTabs,
   PackagePlus,
+  Settings,
   ShieldCheck,
-  Users,
 } from 'lucide-react'
 
 import type { UserRole } from '@/context/auth-context'
@@ -19,26 +19,69 @@ export interface NavigationItem {
   label: string
   to: string
   icon: LucideIcon
+  section: 'Overview' | 'Operations' | 'Records' | 'Administration' | 'Borrowing'
   end?: boolean
 }
 
 export const navigationByRole: Record<UserRole, NavigationItem[]> = {
   SUPER_ADMIN: [
-    { label: 'Dashboard', to: '/logistics/dashboard', icon: LayoutDashboard, end: true },
-    { label: 'Inventory', to: '/logistics/inventory', icon: Boxes },
-    { label: 'Categories', to: '/logistics/categories', icon: FolderTree },
-    { label: 'Borrowing Requests', to: '/logistics/requests', icon: ClipboardList },
-    { label: 'Committees & Accounts', to: '/logistics/committees', icon: Users },
-    { label: 'Transactions', to: '/logistics/transactions', icon: NotebookTabs },
-    { label: 'Reports', to: '/logistics/reports', icon: FileBarChart },
-    { label: 'Audit Logs', to: '/logistics/audit-logs', icon: ShieldCheck },
+    {
+      label: 'Dashboard',
+      to: '/logistics/dashboard',
+      icon: LayoutDashboard,
+      section: 'Overview',
+      end: true,
+    },
+    { label: 'Inventory', to: '/logistics/inventory', icon: Boxes, section: 'Operations' },
+    {
+      label: 'Borrowing Requests',
+      to: '/logistics/requests',
+      icon: ClipboardList,
+      section: 'Operations',
+    },
+    { label: 'Categories', to: '/logistics/categories', icon: FolderTree, section: 'Operations' },
+    {
+      label: 'Transactions',
+      to: '/logistics/transactions',
+      icon: NotebookTabs,
+      section: 'Records',
+    },
+    { label: 'Reports', to: '/logistics/reports', icon: FileBarChart, section: 'Records' },
+    { label: 'Audit Logs', to: '/logistics/audit-logs', icon: ShieldCheck, section: 'Records' },
+    {
+      label: 'System Settings',
+      to: '/logistics/settings',
+      icon: Settings,
+      section: 'Administration',
+    },
   ],
   COMMITTEE: [
-    { label: 'Dashboard', to: '/committee/dashboard', icon: LayoutDashboard, end: true },
-    { label: 'Inventory', to: '/committee/inventory', icon: Boxes },
-    { label: 'New Borrowing Request', to: '/committee/requests/new', icon: PackagePlus },
-    { label: 'My Requests', to: '/committee/requests/history', icon: ClipboardClock },
-    { label: 'Borrowing History', to: '/committee/borrowing-history', icon: History },
+    {
+      label: 'Dashboard',
+      to: '/committee/dashboard',
+      icon: LayoutDashboard,
+      section: 'Overview',
+      end: true,
+    },
+    { label: 'Inventory', to: '/committee/inventory', icon: Boxes, section: 'Borrowing' },
+    {
+      label: 'New Borrowing Request',
+      to: '/committee/requests/new',
+      icon: PackagePlus,
+      section: 'Borrowing',
+    },
+    {
+      label: 'My Requests',
+      to: '/committee/requests/history',
+      icon: ClipboardClock,
+      section: 'Borrowing',
+    },
+    {
+      label: 'Borrowing History',
+      to: '/committee/borrowing-history',
+      icon: History,
+      section: 'Borrowing',
+    },
   ],
 }
 

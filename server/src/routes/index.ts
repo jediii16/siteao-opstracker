@@ -10,6 +10,7 @@ import healthRouter from "./health.routes.js"
 import itemRouter from "./item.routes.js"
 import reportsRouter from "../modules/reports/reports.routes.js"
 import systemRecordsRouter from "../modules/system-records/system-records.routes.js"
+import systemSettingsRouter from "../modules/system-settings/system-settings.routes.js"
 
 const router = Router()
 
@@ -21,6 +22,7 @@ router.use("/dashboard", dashboardRouter)
 router.use("/health", healthRouter)
 router.use("/items", itemRouter)
 router.use("/reports", reportsRouter)
+router.use("/system-settings", systemSettingsRouter)
 router.use("/", systemRecordsRouter)
 router.use("/users/committee-accounts", committeeAccountRouter)
 

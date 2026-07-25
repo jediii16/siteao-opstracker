@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { PageHeader } from '@/components/common/PageHeader'
+import { AppSelect } from '@/components/common/AppSelect'
 import { PaginationControls } from '@/components/common/PaginationControls'
 import {
   ServerDataTable,
@@ -247,21 +248,18 @@ export function TransactionsPage() {
               className="pl-9"
             />
           </div>
-          <select
+          <AppSelect
             value={transactionType}
-            onChange={(event) =>
-              updateFilter(setTransactionType, event.target.value)
+            onValueChange={(value) =>
+              updateFilter(setTransactionType, value)
             }
-            aria-label="Filter transaction type"
-            className="h-9 rounded-md border border-input bg-background px-3 text-sm"
-          >
-            <option value="">All transaction types</option>
-            {transactionTypes.map((type) => (
-              <option key={type} value={type}>
-                {readableLabel(type)}
-              </option>
-            ))}
-          </select>
+            ariaLabel="Filter transaction type"
+            emptyLabel="All transaction types"
+            options={transactionTypes.map((type) => ({
+              value: type,
+              label: readableLabel(type),
+            }))}
+          />
           <Input
             type="date"
             value={dateFrom}

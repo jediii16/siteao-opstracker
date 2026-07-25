@@ -21,7 +21,6 @@ export interface ItemListParams {
 }
 
 export interface ItemInput {
-  itemCode: string
   itemName: string
   description?: string | null
   categoryId: string

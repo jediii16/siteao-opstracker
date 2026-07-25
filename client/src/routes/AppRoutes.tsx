@@ -6,7 +6,6 @@ import { LogisticsLayout } from '@/layouts/LogisticsLayout'
 import { AuditLogsPage } from '@/pages/audit/AuditLogsPage'
 import { LoginPage } from '@/pages/auth/LoginPage'
 import { CategoriesPage } from '@/pages/categories/CategoriesPage'
-import { CommitteeAccountsPage } from '@/pages/committees/CommitteeAccountsPage'
 import { CommitteeDashboardPage } from '@/pages/dashboard/CommitteeDashboardPage'
 import { LogisticsDashboardPage } from '@/pages/dashboard/LogisticsDashboardPage'
 import { InventoryPage } from '@/pages/inventory/InventoryPage'
@@ -14,6 +13,7 @@ import { ItemDetailsPage } from '@/pages/inventory/ItemDetailsPage'
 import { ItemFormPage } from '@/pages/inventory/ItemFormPage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
 import { InventoryReportPage } from '@/pages/reports/InventoryReportPage'
+import { SystemSettingsPage } from '@/pages/settings/SystemSettingsPage'
 import { BorrowHistoryPage } from '@/pages/requests/BorrowHistoryPage'
 import { CreateRequestPage } from '@/pages/requests/CreateRequestPage'
 import { RequestDetailsPage } from '@/pages/requests/RequestDetailsPage'
@@ -48,7 +48,11 @@ export function AppRoutes() {
               <Route path="requests" element={<RequestsPage />} />
               <Route path="requests/:requestId" element={<RequestDetailsPage />} />
               <Route path="categories" element={<CategoriesPage />} />
-              <Route path="committees" element={<CommitteeAccountsPage />} />
+              <Route path="settings" element={<SystemSettingsPage />} />
+              <Route
+                path="committees"
+                element={<Navigate to="/logistics/settings" replace />}
+              />
               <Route path="transactions" element={<TransactionsPage />} />
               <Route path="reports" element={<InventoryReportPage />} />
               <Route path="audit-logs" element={<AuditLogsPage />} />

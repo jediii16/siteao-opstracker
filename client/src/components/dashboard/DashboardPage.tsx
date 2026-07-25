@@ -125,7 +125,7 @@ export function DashboardPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title={isAdmin ? 'Administration Dashboard' : 'Committee Dashboard'}
+        title={isAdmin ? 'Logistics Dashboard' : 'Committee Dashboard'}
         description={
           isAdmin
             ? 'A live overview of SITEAO inventory, borrowing activity, and committee access.'

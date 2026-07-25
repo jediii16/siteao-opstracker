@@ -3,6 +3,7 @@ import { LoaderCircle, Pencil, Plus, Power, PowerOff, Search } from 'lucide-reac
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
 
 import { ConfirmationDialog } from '@/components/common/ConfirmationDialog'
+import { AppSelect } from '@/components/common/AppSelect'
 import { PageHeader } from '@/components/common/PageHeader'
 import { PaginationControls } from '@/components/common/PaginationControls'
 import { ServerDataTable, type ServerTableColumn } from '@/components/common/ServerDataTable'
@@ -287,19 +288,19 @@ export function CategoriesPage() {
               className="pl-9"
             />
           </div>
-          <select
+          <AppSelect
             value={statusFilter}
-            onChange={(event) => {
-              setStatusFilter(event.target.value)
+            onValueChange={(value) => {
+              setStatusFilter(value)
               setPage(1)
             }}
-            aria-label="Filter category status"
-            className="h-9 rounded-md border border-input bg-background px-3 text-sm"
-          >
-            <option value="">All statuses</option>
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-          </select>
+            ariaLabel="Filter category status"
+            emptyLabel="All statuses"
+            options={[
+              { value: 'active', label: 'Active' },
+              { value: 'inactive', label: 'Inactive' },
+            ]}
+          />
         </CardContent>
         <ServerDataTable
           rows={visibleCategories}

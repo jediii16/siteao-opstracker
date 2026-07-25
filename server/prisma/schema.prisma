@@ -83,9 +83,22 @@ model User {
   inventoryTransactions      InventoryTransaction[]
   auditLogs                  AuditLog[]
   refreshTokens              RefreshToken[]
+  systemSettingsUpdated      SystemSetting[]        @relation("SystemSettingUpdatedBy")
 
   @@index([committeeId])
   @@map("users")
+}
+
+model SystemSetting {
+  id                 String   @id @default("siteao") @map("id") @db.VarChar(32)
+  siteaoGovernorName String   @default("HON. JHERMIE P. LICAROS") @map("siteao_governor_name") @db.VarChar(150)
+  updatedBy          String?  @map("updated_by") @db.Uuid
+  createdAt          DateTime @default(now()) @map("created_at") @db.Timestamp(3)
+  updatedAt          DateTime @updatedAt @map("updated_at") @db.Timestamp(3)
+  updater            User?    @relation("SystemSettingUpdatedBy", fields: [updatedBy], references: [id], onDelete: SetNull)
+
+  @@index([updatedBy])
+  @@map("system_settings")
 }
 
 model Category {

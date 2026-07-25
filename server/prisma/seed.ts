@@ -52,6 +52,15 @@ async function main(
     },
   })
 
+  await prisma.systemSetting.upsert({
+    where: { id: "siteao" },
+    update: {},
+    create: {
+      id: "siteao",
+      siteaoGovernorName: "HON. JHERMIE P. LICAROS",
+    },
+  })
+
   console.log(`Super-admin account "${adminUsername}" is ready.`)
 }
 
