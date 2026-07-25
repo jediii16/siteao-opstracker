@@ -4,7 +4,7 @@ import app from "./app.js"
 import { env } from "./config/env.js"
 import { closePdfBrowser } from "./modules/reports/pdf/pdf-browser.js"
 
-const server = app.listen(env.PORT, () => {
+const server = app.listen(env.PORT, "0.0.0.0",() => {
   console.log(
     `SITEAO OpsTracker API running at http://localhost:${env.PORT}`,
   )
