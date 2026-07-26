@@ -5,10 +5,12 @@ import * as authService from "../services/auth.service.js"
 import type { LoginInput } from "../validators/auth.validator.js"
 import { AppError } from "../utils/AppError.js"
 
+const isProduction = env.NODE_ENV === "production"
+
 const refreshCookieOptions: CookieOptions = {
   httpOnly: true,
-  sameSite: "lax",
-  secure: env.NODE_ENV === "production",
+  sameSite: isProduction ? "none" : "lax",
+  secure: isProduction,
   maxAge: env.REFRESH_TOKEN_EXPIRES_DAYS * 24 * 60 * 60 * 1000,
   path: "/api/auth",
 }
