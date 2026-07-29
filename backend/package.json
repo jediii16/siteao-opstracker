@@ -1,5 +1,5 @@
 {
-  "name": "siteao-opstracker-server",
+  "name": "siteao-opstracker-backend",
   "version": "1.0.0",
   "private": true,
   "description": "Backend API for SITEAO OpsTracker",

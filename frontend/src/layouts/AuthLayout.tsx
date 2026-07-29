@@ -6,15 +6,15 @@ import { ThemeToggle } from '@/components/common/ThemeToggle'
 
 export function AuthLayout() {
   return (
-    <main className="relative grid min-h-screen overflow-hidden bg-background lg:grid-cols-[minmax(0,0.92fr)_minmax(32rem,1.08fr)]">
+    <main className="relative grid min-h-screen w-full min-w-0 max-w-full overflow-x-clip overflow-y-hidden bg-background lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
       <div className="absolute inset-x-0 top-0 z-10 h-1 brand-gradient-primary" aria-hidden="true" />
-      <section className="auth-panel-surface relative flex items-center justify-center px-5 py-10 sm:px-8 lg:py-12">
+      <section className="auth-layout-section auth-panel-surface relative flex min-w-0 items-center justify-center px-5 py-10 sm:px-8 lg:py-12">
         <div
           className="pointer-events-none absolute -left-24 top-16 size-72 rounded-full bg-primary/5 blur-3xl"
           aria-hidden="true"
         />
-        <div className="relative w-full max-w-md">
-          <div className="mb-9 flex items-center justify-between gap-4">
+        <div className="auth-layout-shell relative w-full max-w-md">
+          <div className="auth-brand-row mb-9 flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <span className="group/brandmark flex size-11 items-center justify-center rounded-xl border border-primary/40 bg-gradient-to-br from-brand-navy via-[#7a2a16] to-primary text-white shadow-[0_8px_22px_rgba(217,54,0,0.2)] transition-[box-shadow,border-color] duration-300 hover:border-[#ff7547]/70 hover:shadow-[0_10px_28px_rgba(255,106,56,0.3)]">
                 <PackageCheck
@@ -36,13 +36,13 @@ export function AuthLayout() {
             </div>
           </div>
           <Outlet />
-          <div className="mt-6 space-y-1 text-center text-xs text-muted-foreground">
+          <div className="auth-footer mt-6 space-y-1 text-center text-xs text-muted-foreground">
             <p>Authorized SITEAO accounts only</p>
             <p className="lg:hidden">Developed by Jed Tenorio</p>
           </div>
         </div>
       </section>
-      <section className="auth-hero-surface relative hidden h-screen min-h-0 overflow-hidden text-white lg:block">
+      <section className="auth-hero-surface relative hidden min-h-screen min-w-0 self-stretch overflow-hidden text-white lg:block">
         <div
           className="absolute inset-0 opacity-80 [background:radial-gradient(circle_at_75%_16%,rgba(72,173,191,0.34),transparent_38%)]"
           aria-hidden="true"

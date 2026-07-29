@@ -27,5 +27,5 @@ SITEAO OpsTracker is an inventory and borrowing management system for a student 
 
 ```text
 siteao-opstracker/
-├── client/
-└── server/
+├── frontend/
+└── backend/

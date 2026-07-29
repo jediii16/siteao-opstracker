@@ -11,7 +11,6 @@ const refreshCookieOptions: CookieOptions = {
   httpOnly: true,
   sameSite: isProduction ? "none" : "lax",
   secure: isProduction,
-  maxAge: env.REFRESH_TOKEN_EXPIRES_DAYS * 24 * 60 * 60 * 1000,
   path: "/api/auth",
 }
 

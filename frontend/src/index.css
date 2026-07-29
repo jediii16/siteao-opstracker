@@ -121,8 +121,17 @@
     @apply border-border outline-ring/50;
   }
 
+  html,
+  body,
+  #root {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    min-height: 100%;
+  }
+
   body {
-    @apply min-h-screen bg-background font-sans text-foreground antialiased;
+    @apply min-h-screen overflow-x-hidden bg-background font-sans text-foreground antialiased;
   }
 
   h1,
@@ -181,5 +190,51 @@
     box-shadow:
       inset 1px 0 rgb(255 255 255 / 0.08),
       -24px 0 64px rgb(12 26 77 / 0.1);
+  }
+
+  @media (min-width: 64rem) and (max-height: 53.125rem) {
+    .auth-layout-section {
+      padding-block: 0.75rem;
+    }
+
+    .auth-brand-row {
+      margin-bottom: 0.75rem;
+    }
+
+    .auth-card {
+      gap: 0.75rem;
+    }
+
+    .auth-card-header {
+      padding-top: 0.75rem;
+      padding-inline: 1.5rem;
+    }
+
+    .auth-card-logo {
+      width: 4rem;
+      height: 4rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .auth-card-content {
+      padding-inline: 1.5rem;
+      padding-bottom: 0.75rem;
+    }
+
+    .auth-form {
+      gap: 0.75rem;
+    }
+
+    .auth-game-area {
+      margin-top: 0.75rem;
+    }
+
+    .auth-game-divider {
+      margin-bottom: 0.5rem;
+    }
+
+    .auth-footer {
+      margin-top: 0.75rem;
+    }
   }
 }

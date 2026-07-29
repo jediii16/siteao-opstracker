@@ -75,9 +75,9 @@ export function LoginPage() {
   }
 
   return (
-    <Card className="rounded-2xl border-border/80 bg-card/95 shadow-xl shadow-brand-navy/5 backdrop-blur-sm">
-      <CardHeader className="gap-2 px-6 pt-7 text-center sm:px-8 sm:pt-8">
-        <div className="group/logo mx-auto mb-3 flex size-24 items-center justify-center">
+    <Card className="auth-card rounded-2xl border-border/80 bg-card/95 shadow-xl shadow-brand-navy/5 backdrop-blur-sm">
+      <CardHeader className="auth-card-header gap-2 px-6 pt-7 text-center sm:px-8 sm:pt-8">
+        <div className="auth-card-logo group/logo mx-auto mb-3 flex size-24 items-center justify-center">
           <img
             src={siteaoLogo}
             alt="SITEAO logo"
@@ -89,8 +89,8 @@ export function LoginPage() {
           Sign in with your SITEAO account to continue.
         </CardDescription>
       </CardHeader>
-      <CardContent className="px-6 pb-7 sm:px-8 sm:pb-8">
-        <form className="space-y-5" onSubmit={handleSubmit} noValidate>
+      <CardContent className="auth-card-content px-6 pb-7 sm:px-8 sm:pb-8">
+        <form className="auth-form flex flex-col gap-5" onSubmit={handleSubmit} noValidate>
           {error ? <InlineError message={error} /> : null}
           <div className="space-y-2">
             <Label htmlFor="username" className="inline-flex items-center gap-0.5">
@@ -200,8 +200,8 @@ export function LoginPage() {
           </Button>
         </form>
 
-        <div className="mt-6">
-          <div className="mb-4 flex items-center gap-3" aria-hidden="true">
+        <div className="auth-game-area mt-6">
+          <div className="auth-game-divider mb-4 flex items-center gap-3" aria-hidden="true">
             <span className="h-px flex-1 bg-border" />
             <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
               Need a tiny break?
