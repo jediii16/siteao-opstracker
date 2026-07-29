@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import axios from 'axios'
 
 import { ConfirmationDialog } from '@/components/common/ConfirmationDialog'
+import { ActionTooltip } from '@/components/common/ActionTooltip'
 import { AppSelect } from '@/components/common/AppSelect'
 import { PaginationControls } from '@/components/common/PaginationControls'
 import { ServerDataTable, type ServerTableColumn } from '@/components/common/ServerDataTable'
@@ -230,23 +231,56 @@ export function CommitteeAccountsPanel({ committees }: CommitteeAccountsPanelPro
     {
       key: 'actions',
       label: 'Actions',
-      className: 'text-right',
+      className: 'w-28',
       render: (account) => (
-        <div className="flex justify-end gap-1">
-          <Button type="button" variant="ghost" size="icon-sm" aria-label={`Edit ${account.username}`} onClick={() => openDialog('edit', account)}>
-            <Pencil aria-hidden="true" />
-          </Button>
-          <Button type="button" variant="ghost" size="icon-sm" aria-label={`Reset password for ${account.username}`} onClick={() => openDialog('reset', account)}>
-            <KeyRound aria-hidden="true" />
-          </Button>
+        <div className="inline-flex min-w-28 items-center justify-center gap-1">
+          <ActionTooltip label={`Edit ${account.username}`}>
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon-sm"
+              aria-label={`Edit ${account.username}`}
+              onClick={() => openDialog('edit', account)}
+            >
+              <Pencil aria-hidden="true" />
+            </Button>
+          </ActionTooltip>
+          <ActionTooltip label={`Reset password for ${account.username}`}>
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon-sm"
+              aria-label={`Reset password for ${account.username}`}
+              onClick={() => openDialog('reset', account)}
+            >
+              <KeyRound aria-hidden="true" />
+            </Button>
+          </ActionTooltip>
           {account.isActive ? (
-            <Button type="button" variant="ghost" size="icon-sm" aria-label={`Deactivate ${account.username}`} onClick={() => setPendingAccount(account)}>
-              <PowerOff aria-hidden="true" />
-            </Button>
+            <ActionTooltip label={`Deactivate ${account.username}`}>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon-sm"
+                aria-label={`Deactivate ${account.username}`}
+                onClick={() => setPendingAccount(account)}
+                className="text-destructive hover:text-destructive"
+              >
+                <PowerOff aria-hidden="true" />
+              </Button>
+            </ActionTooltip>
           ) : (
-            <Button type="button" variant="ghost" size="icon-sm" aria-label={`Activate ${account.username}`} onClick={() => void activateAccount(account)}>
-              <Power aria-hidden="true" />
-            </Button>
+            <ActionTooltip label={`Activate ${account.username}`}>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon-sm"
+                aria-label={`Activate ${account.username}`}
+                onClick={() => void activateAccount(account)}
+              >
+                <Power aria-hidden="true" />
+              </Button>
+            </ActionTooltip>
           )}
         </div>
       ),

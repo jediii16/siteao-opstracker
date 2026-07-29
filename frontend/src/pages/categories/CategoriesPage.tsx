@@ -3,6 +3,7 @@ import { LoaderCircle, Pencil, Plus, Power, PowerOff, Search } from 'lucide-reac
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
 
 import { ConfirmationDialog } from '@/components/common/ConfirmationDialog'
+import { ActionTooltip } from '@/components/common/ActionTooltip'
 import { AppSelect } from '@/components/common/AppSelect'
 import { PageHeader } from '@/components/common/PageHeader'
 import { PaginationControls } from '@/components/common/PaginationControls'
@@ -223,38 +224,45 @@ export function CategoriesPage() {
     {
       key: 'actions',
       label: 'Actions',
-      className: 'text-right',
+      className: 'w-20',
       render: (category) => (
-        <div className="flex justify-end gap-1">
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon-sm"
-            aria-label={`Edit ${category.name}`}
-            onClick={() => openEditDialog(category)}
-          >
-            <Pencil aria-hidden="true" />
-          </Button>
+        <div className="inline-flex min-w-20 items-center justify-center gap-1">
+          <ActionTooltip label={`Edit ${category.name}`}>
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon-sm"
+              aria-label={`Edit ${category.name}`}
+              onClick={() => openEditDialog(category)}
+            >
+              <Pencil aria-hidden="true" />
+            </Button>
+          </ActionTooltip>
           {category.isActive ? (
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon-sm"
-              aria-label={`Deactivate ${category.name}`}
-              onClick={() => setPendingCategory(category)}
-            >
-              <PowerOff aria-hidden="true" />
-            </Button>
+            <ActionTooltip label={`Deactivate ${category.name}`}>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon-sm"
+                aria-label={`Deactivate ${category.name}`}
+                onClick={() => setPendingCategory(category)}
+                className="text-destructive hover:text-destructive"
+              >
+                <PowerOff aria-hidden="true" />
+              </Button>
+            </ActionTooltip>
           ) : (
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon-sm"
-              aria-label={`Activate ${category.name}`}
-              onClick={() => void activateCategory(category)}
-            >
-              <Power aria-hidden="true" />
-            </Button>
+            <ActionTooltip label={`Activate ${category.name}`}>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon-sm"
+                aria-label={`Activate ${category.name}`}
+                onClick={() => void activateCategory(category)}
+              >
+                <Power aria-hidden="true" />
+              </Button>
+            </ActionTooltip>
           )}
         </div>
       ),

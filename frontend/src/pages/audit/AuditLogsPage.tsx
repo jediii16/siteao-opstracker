@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 
 import { PageHeader } from '@/components/common/PageHeader'
 import { AppSelect } from '@/components/common/AppSelect'
+import { ActionTooltip } from '@/components/common/ActionTooltip'
 import { PaginationControls } from '@/components/common/PaginationControls'
 import {
   ServerDataTable,
@@ -163,6 +164,7 @@ export function AuditLogsPage() {
     {
       key: 'actor',
       label: 'Actor',
+      align: 'left',
       render: (log) => (
         <div>
           <p className="font-medium">{log.user?.username ?? 'System'}</p>
@@ -184,6 +186,7 @@ export function AuditLogsPage() {
       key: 'entity',
       label: 'Entity',
       sortKey: 'entityType',
+      align: 'left',
       render: (log) => (
         <div>
           <p>{readableLabel(log.entityType)}</p>
@@ -198,24 +201,29 @@ export function AuditLogsPage() {
     {
       key: 'description',
       label: 'Activity',
+      align: 'left',
       render: (log) => (
         <p className="max-w-xl whitespace-normal">{log.description}</p>
       ),
     },
     {
-      key: 'details',
-      label: 'Details',
-      className: 'text-right',
+      key: 'actions',
+      label: 'Actions',
+      className: 'w-14',
       render: (log) => (
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon-sm"
-          aria-label={`View details for ${readableLabel(log.action)}`}
-          onClick={() => setSelectedLog(log)}
-        >
-          <Eye aria-hidden="true" />
-        </Button>
+        <div className="inline-flex min-w-10 items-center justify-center">
+          <ActionTooltip label={`View details for ${readableLabel(log.action)}`}>
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon-sm"
+              aria-label={`View details for ${readableLabel(log.action)}`}
+              onClick={() => setSelectedLog(log)}
+            >
+              <Eye aria-hidden="true" />
+            </Button>
+          </ActionTooltip>
+        </div>
       ),
     },
   ]

@@ -143,7 +143,7 @@ export function createInventoryReportHtml(
     }
 
     .item-cell {
-      text-align: left;
+      text-align: center;
       font-weight: 600;
     }
 

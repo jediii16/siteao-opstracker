@@ -2,6 +2,7 @@ import { LoaderCircle, Pencil, Plus, Power, PowerOff, Search } from 'lucide-reac
 import { useMemo, useState, type FormEvent } from 'react'
 
 import { ConfirmationDialog } from '@/components/common/ConfirmationDialog'
+import { ActionTooltip } from '@/components/common/ActionTooltip'
 import { PaginationControls } from '@/components/common/PaginationControls'
 import { ServerDataTable, type ServerTableColumn } from '@/components/common/ServerDataTable'
 import { StatusBadge } from '@/components/common/StatusBadge'
@@ -186,38 +187,45 @@ export function CommitteesPanel({
     {
       key: 'actions',
       label: 'Actions',
-      className: 'text-right',
+      className: 'w-20',
       render: (committee) => (
-        <div className="flex justify-end gap-1">
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon-sm"
-            aria-label={`Edit ${committee.name}`}
-            onClick={() => openForm(committee)}
-          >
-            <Pencil aria-hidden="true" />
-          </Button>
+        <div className="inline-flex min-w-20 items-center justify-center gap-1">
+          <ActionTooltip label={`Edit ${committee.name}`}>
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon-sm"
+              aria-label={`Edit ${committee.name}`}
+              onClick={() => openForm(committee)}
+            >
+              <Pencil aria-hidden="true" />
+            </Button>
+          </ActionTooltip>
           {committee.isActive ? (
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon-sm"
-              aria-label={`Deactivate ${committee.name}`}
-              onClick={() => setPendingCommittee(committee)}
-            >
-              <PowerOff aria-hidden="true" />
-            </Button>
+            <ActionTooltip label={`Deactivate ${committee.name}`}>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon-sm"
+                aria-label={`Deactivate ${committee.name}`}
+                onClick={() => setPendingCommittee(committee)}
+                className="text-destructive hover:text-destructive"
+              >
+                <PowerOff aria-hidden="true" />
+              </Button>
+            </ActionTooltip>
           ) : (
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon-sm"
-              aria-label={`Activate ${committee.name}`}
-              onClick={() => void activateCommittee(committee)}
-            >
-              <Power aria-hidden="true" />
-            </Button>
+            <ActionTooltip label={`Activate ${committee.name}`}>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon-sm"
+                aria-label={`Activate ${committee.name}`}
+                onClick={() => void activateCommittee(committee)}
+              >
+                <Power aria-hidden="true" />
+              </Button>
+            </ActionTooltip>
           )}
         </div>
       ),

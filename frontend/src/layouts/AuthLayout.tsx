@@ -1,4 +1,4 @@
-import { PackageCheck } from 'lucide-react'
+import { Gamepad2, PackageCheck } from 'lucide-react'
 import { Outlet } from 'react-router-dom'
 
 import logisHeads from '@/assets/logis-heads.png'
@@ -36,8 +36,15 @@ export function AuthLayout() {
             </div>
           </div>
           <Outlet />
-          <div className="auth-footer mt-6 space-y-1 text-center text-xs text-muted-foreground">
+          <div className="auth-footer mt-6 space-y-2 text-center text-xs text-muted-foreground">
             <p>Authorized SITEAO accounts only</p>
+            <a
+              href="/?playGame=1"
+              className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+            >
+              <Gamepad2 className="size-3.5" aria-hidden="true" />
+              Play Supply Sprint
+            </a>
             <p className="lg:hidden">Developed by Jed Tenorio</p>
           </div>
         </div>

@@ -154,6 +154,7 @@ export function TransactionsPage() {
     {
       key: 'item',
       label: 'Inventory item',
+      align: 'left',
       render: (transaction) => (
         <div>
           <Button asChild variant="link" className="h-auto p-0 font-medium">
@@ -200,6 +201,7 @@ export function TransactionsPage() {
     {
       key: 'reference',
       label: 'Reference',
+      align: 'left',
       render: (transaction) =>
         transaction.borrowingRequest ? (
           <Button asChild variant="link" className="h-auto p-0">
@@ -219,6 +221,7 @@ export function TransactionsPage() {
     {
       key: 'remarks',
       label: 'Remarks',
+      align: 'left',
       render: (transaction) => (
         <p className="max-w-72 whitespace-normal text-sm text-muted-foreground">
           {transaction.remarks || 'No remarks'}

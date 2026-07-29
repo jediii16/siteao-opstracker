@@ -4,7 +4,9 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { ConfirmationDialog } from '@/components/common/ConfirmationDialog'
+import { ActionTooltip } from '@/components/common/ActionTooltip'
 import { AppSelect } from '@/components/common/AppSelect'
+import { FilterSummary, type ActiveFilter } from '@/components/common/FilterSummary'
 import { PageHeader } from '@/components/common/PageHeader'
 import { PaginationControls } from '@/components/common/PaginationControls'
 import {
@@ -15,6 +17,7 @@ import { StatusBadge } from '@/components/common/StatusBadge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { useAuth } from '@/hooks/useAuth'
 import { useDebouncedValue } from '@/hooks/useDebouncedValue'
 import { useToast } from '@/hooks/useToast'
@@ -28,6 +31,7 @@ import type {
   Pagination,
   SortOrder,
 } from '@/types/api'
+import { formatEnumLabel } from '@/utils/formatEnumLabel'
 
 const emptyPagination: Pagination = {
   page: 1,
@@ -38,8 +42,10 @@ const emptyPagination: Pagination = {
 
 const conditions: ItemCondition[] = ['GOOD', 'FAIR', 'DAMAGED', 'UNDER_REPAIR', 'LOST']
 
-function formatCondition(condition: ItemCondition) {
-  return condition.replaceAll('_', ' ').toLowerCase().replace(/\b\w/g, (letter) => letter.toUpperCase())
+function conditionTone(condition: ItemCondition) {
+  if (condition === 'GOOD') return 'success' as const
+  if (condition === 'FAIR' || condition === 'UNDER_REPAIR') return 'warning' as const
+  return 'danger' as const
 }
 
 export function InventoryPage() {
@@ -150,6 +156,46 @@ export function InventoryPage() {
     }
   }
 
+  function clearFilters() {
+    setSearch('')
+    setCategoryId('')
+    setCondition('')
+    setActiveFilter(isAdmin ? '' : 'true')
+    setPage(1)
+    setIsLoading(true)
+  }
+
+  const activeFilters: ActiveFilter[] = [
+    ...(search.trim()
+      ? [{
+          key: 'search',
+          label: `Search: ${search.trim()}`,
+          onRemove: () => updateFilter(setSearch, ''),
+        }]
+      : []),
+    ...(categoryId
+      ? [{
+          key: 'category',
+          label: `Category: ${categories.find((category) => category.id === categoryId)?.name ?? 'Selected'}`,
+          onRemove: () => updateFilter(setCategoryId, ''),
+        }]
+      : []),
+    ...(condition
+      ? [{
+          key: 'condition',
+          label: `Condition: ${formatEnumLabel(condition)}`,
+          onRemove: () => updateFilter(setCondition, ''),
+        }]
+      : []),
+    ...(isAdmin && activeFilter
+      ? [{
+          key: 'status',
+          label: activeFilter === 'true' ? 'Record: Active' : 'Record: Inactive',
+          onRemove: () => updateFilter(setActiveFilter, ''),
+        }]
+      : []),
+  ]
+
   const columns: ServerTableColumn<InventoryItem>[] = [
     {
       key: 'item',
@@ -180,58 +226,86 @@ export function InventoryPage() {
     {
       key: 'condition',
       label: 'Condition',
-      render: (item) => formatCondition(item.condition),
+      render: (item) => (
+        <StatusBadge
+          label={formatEnumLabel(item.condition)}
+          tone={conditionTone(item.condition)}
+        />
+      ),
     },
     {
       key: 'status',
-      label: 'Status',
+      label: 'Availability',
       render: (item) =>
         item.isActive ? (
-          <StatusBadge label={item.availableQuantity > 0 ? 'Available' : 'Unavailable'} tone={item.availableQuantity > 0 ? 'success' : 'inactive'} />
+          <StatusBadge
+            label={item.availableQuantity > 0 ? 'Available' : 'Checked out'}
+            tone={item.availableQuantity > 0 ? 'success' : 'warning'}
+          />
         ) : (
-          <StatusBadge label="Inactive" tone="inactive" />
+          <StatusBadge label="Inactive record" tone="inactive" />
         ),
     },
     {
       key: 'actions',
       label: 'Actions',
-      className: 'text-right',
+      className: 'w-28',
       render: (item) => (
-        <div className="flex justify-end gap-1">
-          <Button asChild type="button" variant="ghost" size="icon-sm" aria-label={`View ${item.itemName}`}>
-            <Link to={`${isAdmin ? '/logistics' : '/committee'}/inventory/${item.id}`}>
-              <Eye aria-hidden="true" />
-            </Link>
-          </Button>
+        <div className="inline-flex min-w-10 items-center justify-center gap-1">
+          <ActionTooltip label={`View ${item.itemName}`}>
+            <Button asChild type="button" variant="ghost" size="icon-sm">
+              <Link
+                to={`${isAdmin ? '/logistics' : '/committee'}/inventory/${item.id}`}
+                aria-label={`View ${item.itemName}`}
+              >
+                <Eye aria-hidden="true" />
+              </Link>
+            </Button>
+          </ActionTooltip>
           {isAdmin ? (
             <>
-              <Button asChild type="button" variant="ghost" size="icon-sm" aria-label={`Edit ${item.itemName}`}>
-                <Link to={`/logistics/inventory/${item.id}/edit`}>
-                  <Pencil aria-hidden="true" />
-                </Link>
-              </Button>
+              <ActionTooltip label={`Edit ${item.itemName}`}>
+                <Button
+                  asChild
+                  type="button"
+                  variant="ghost"
+                  size="icon-sm"
+                >
+                  <Link
+                    to={`/logistics/inventory/${item.id}/edit`}
+                    aria-label={`Edit ${item.itemName}`}
+                  >
+                    <Pencil aria-hidden="true" />
+                  </Link>
+                </Button>
+              </ActionTooltip>
               {item.isActive ? (
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon-sm"
-                  aria-label={`Deactivate ${item.itemName}`}
-                  onClick={() => setPendingItem(item)}
-                  disabled={isMutating}
-                >
-                  <PowerOff aria-hidden="true" />
-                </Button>
+                <ActionTooltip label={`Deactivate ${item.itemName}`}>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon-sm"
+                    aria-label={`Deactivate ${item.itemName}`}
+                    onClick={() => setPendingItem(item)}
+                    disabled={isMutating}
+                    className="text-destructive hover:text-destructive"
+                  >
+                    <PowerOff aria-hidden="true" />
+                  </Button>
+                </ActionTooltip>
               ) : (
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon-sm"
-                  aria-label={`Activate ${item.itemName}`}
-                  onClick={() => void activateItem(item)}
-                  disabled={isMutating}
-                >
-                  <Power aria-hidden="true" />
-                </Button>
+                <ActionTooltip label={`Activate ${item.itemName}`}>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon-sm"
+                    aria-label={`Activate ${item.itemName}`}
+                    onClick={() => void activateItem(item)}
+                    disabled={isMutating}
+                  >
+                    <Power aria-hidden="true" />
+                  </Button>
+                </ActionTooltip>
               )}
             </>
           ) : null}
@@ -261,50 +335,68 @@ export function InventoryPage() {
         }
       />
       <Card className="gap-0 py-0">
-        <CardContent className="grid gap-3 border-b p-4 md:grid-cols-[minmax(15rem,1fr)_repeat(3,minmax(9rem,auto))]">
-          <div className="relative">
-            <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
-            <Input
-              value={search}
-              onChange={(event) => updateFilter(setSearch, event.target.value)}
-              placeholder="Search inventory…"
-              aria-label="Search inventory"
-              className="pl-9"
+        <CardContent className="grid gap-3 border-b p-4 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="space-y-1.5">
+            <Label htmlFor="inventory-search">Search</Label>
+            <div className="relative">
+              <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
+              <Input
+                id="inventory-search"
+                value={search}
+                onChange={(event) => updateFilter(setSearch, event.target.value)}
+                placeholder="Name or item code"
+                className="pl-9"
+              />
+            </div>
+          </div>
+          <div className="space-y-1.5">
+            <Label>Category</Label>
+            <AppSelect
+              value={categoryId}
+              onValueChange={(value) => updateFilter(setCategoryId, value)}
+              ariaLabel="Filter by category"
+              emptyLabel="All categories"
+              options={categories.map((category) => ({
+                value: category.id,
+                label: category.name,
+              }))}
             />
           </div>
-          <AppSelect
-            value={categoryId}
-            onValueChange={(value) => updateFilter(setCategoryId, value)}
-            ariaLabel="Filter by category"
-            emptyLabel="All categories"
-            options={categories.map((category) => ({
-              value: category.id,
-              label: category.name,
-            }))}
-          />
-          <AppSelect
-            value={condition}
-            onValueChange={(value) => updateFilter(setCondition, value)}
-            ariaLabel="Filter by condition"
-            emptyLabel="All conditions"
-            options={conditions.map((value) => ({
-              value,
-              label: formatCondition(value),
-            }))}
-          />
-          {isAdmin ? (
+          <div className="space-y-1.5">
+            <Label>Condition</Label>
             <AppSelect
-              value={activeFilter}
-              onValueChange={(value) => updateFilter(setActiveFilter, value)}
-              ariaLabel="Filter by active status"
-              emptyLabel="All statuses"
-              options={[
-                { value: 'true', label: 'Active' },
-                { value: 'false', label: 'Inactive' },
-              ]}
+              value={condition}
+              onValueChange={(value) => updateFilter(setCondition, value)}
+              ariaLabel="Filter by condition"
+              emptyLabel="All conditions"
+              options={conditions.map((value) => ({
+                value,
+                label: formatEnumLabel(value),
+              }))}
             />
+          </div>
+          {isAdmin ? (
+            <div className="space-y-1.5">
+              <Label>Record status</Label>
+              <AppSelect
+                value={activeFilter}
+                onValueChange={(value) => updateFilter(setActiveFilter, value)}
+                ariaLabel="Filter by record status"
+                emptyLabel="All records"
+                options={[
+                  { value: 'true', label: 'Active' },
+                  { value: 'false', label: 'Inactive' },
+                ]}
+              />
+            </div>
           ) : null}
         </CardContent>
+        <FilterSummary
+          filters={activeFilters}
+          resultCount={pagination.total}
+          resultLabel={pagination.total === 1 ? 'item' : 'items'}
+          onClear={clearFilters}
+        />
         <ServerDataTable
           rows={items}
           columns={columns}

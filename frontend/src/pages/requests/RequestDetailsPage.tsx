@@ -29,6 +29,7 @@ import type {
   RequestStatus,
   ReturnCondition,
 } from '@/types/api'
+import { formatEnumLabel } from '@/utils/formatEnumLabel'
 
 function requestTone(status: RequestStatus) {
   if (status === 'REJECTED' || status === 'CANCELLED') return 'danger' as const
@@ -226,7 +227,7 @@ export function RequestDetailsPage() {
           <CardHeader><CardTitle>Request details</CardTitle></CardHeader>
           <CardContent className="grid gap-5 text-sm sm:grid-cols-2">
             <div><p className="text-xs text-muted-foreground">Requester</p><p className="mt-1 font-medium">{request.requesterName}</p><p className="text-muted-foreground">{request.requesterPosition}</p></div>
-            <div><p className="text-xs text-muted-foreground">Status</p><div className="mt-1"><StatusBadge label={request.status} tone={requestTone(request.status)} /></div></div>
+            <div><p className="text-xs text-muted-foreground">Status</p><div className="mt-1"><StatusBadge label={formatEnumLabel(request.status)} tone={requestTone(request.status)} /></div></div>
             <div><p className="text-xs text-muted-foreground">Borrow date</p><p className="mt-1">{new Date(request.borrowDate).toLocaleDateString()}</p></div>
             <div><p className="text-xs text-muted-foreground">Expected return</p><p className="mt-1">{new Date(request.expectedReturnDate).toLocaleDateString()}</p></div>
             <div className="sm:col-span-2"><p className="text-xs text-muted-foreground">Purpose</p><p className="mt-1 whitespace-pre-wrap">{request.purpose}</p></div>

@@ -466,6 +466,9 @@ export function SupplySprint({ serverReady }: SupplySprintProps) {
       previousTime = time
       const groundY = height - 31
       const runnerX = Math.max(34, width * 0.14)
+      const speedLevel = Math.floor(scoreValue / 10)
+      const speed = 205 + speedLevel * 45
+      const paceMultiplier = speed / 205
 
       if (statusRef.current === 'running' && !reduceMotion) {
         if (jumpHeld && !autoHopMode && jumpHoldTime < 0.19 && playerVelocity < 0) {
@@ -475,7 +478,7 @@ export function SupplySprint({ serverReady }: SupplySprintProps) {
 
         playerVelocity += 1250 * delta
         playerY -= playerVelocity * delta
-        worldDistance += delta * 95
+        worldDistance += delta * 95 * paceMultiplier
 
         if (playerY <= 0) {
           playerY = 0
@@ -515,11 +518,12 @@ export function SupplySprint({ serverReady }: SupplySprintProps) {
             counted: false,
             kind,
           })
-          obstacleTimer = 1.35 + Math.random() * 1.15
+          obstacleTimer = Math.max(
+            0.72,
+            1.35 + Math.random() * 1.15 - speedLevel * 0.08,
+          )
         }
 
-        const speedLevel = Math.floor(scoreValue / 10)
-        const speed = 205 + speedLevel * 22
         obstacles.forEach((obstacle) => {
           obstacle.x -= speed * delta
 
@@ -616,7 +620,7 @@ export function SupplySprint({ serverReady }: SupplySprintProps) {
       context.fillRect(0, groundY, width, 3)
 
       obstacles.forEach((obstacle) => drawObstacle(obstacle, groundY))
-      drawGriffin(runnerX, groundY, time)
+      drawGriffin(runnerX, groundY, time * (1 + speedLevel * 0.16))
 
       if (statusRef.current === 'idle') {
         drawGamePrompt('Ready, Griffin?', 'Press SPACE to start')

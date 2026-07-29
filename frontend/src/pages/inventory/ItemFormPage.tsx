@@ -16,6 +16,7 @@ import { getApiErrorMessage } from '@/services/api'
 import { categoryService } from '@/services/categoryService'
 import { itemService, type ItemInput } from '@/services/itemService'
 import type { Category, ItemCondition } from '@/types/api'
+import { formatEnumLabel } from '@/utils/formatEnumLabel'
 
 interface ItemFormState {
   itemCode: string
@@ -266,7 +267,7 @@ export function ItemFormPage() {
                 allowEmpty={false}
                 options={conditions.map((condition) => ({
                   value: condition,
-                  label: condition.replaceAll('_', ' '),
+                  label: formatEnumLabel(condition),
                 }))}
               />
             </div>

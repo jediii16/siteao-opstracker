@@ -34,24 +34,28 @@ function getAdminMetrics(summary?: AdminDashboardSummary): DashboardMetric[] {
       icon: Boxes,
       value: summary?.totalInventoryItems ?? 0,
       detail: `${summary?.availableQuantity ?? 0} units available`,
+      href: '/logistics/inventory',
     },
     {
       label: 'Pending Requests',
       icon: ClipboardList,
       value: summary?.pendingRequests ?? 0,
       detail: 'Awaiting administrator review',
+      href: '/logistics/requests',
     },
     {
       label: 'Active Borrowings',
       icon: PackageCheck,
       value: summary?.approvedOrActiveBorrowings ?? 0,
       detail: `${summary?.overdueBorrowings ?? 0} currently overdue`,
+      href: '/logistics/transactions',
     },
     {
       label: 'Committee Accounts',
       icon: Users,
       value: summary?.activeCommitteeAccounts ?? 0,
       detail: `${summary?.activeCommittees ?? 0} active committees`,
+      href: '/logistics/settings',
     },
   ]
 }
@@ -63,24 +67,28 @@ function getCommitteeMetrics(summary?: CommitteeDashboardSummary): DashboardMetr
       icon: Boxes,
       value: summary?.availableInventoryItems ?? 0,
       detail: `${summary?.availableQuantity ?? 0} units available`,
+      href: '/committee/inventory',
     },
     {
       label: 'Pending Requests',
       icon: ClipboardClock,
       value: summary?.myPendingRequests ?? 0,
       detail: 'Waiting for review',
+      href: '/committee/requests/history',
     },
     {
       label: 'Active Borrowings',
       icon: PackageOpen,
       value: summary?.myApprovedOrActiveBorrowings ?? 0,
       detail: `${summary?.myOverdueBorrowings ?? 0} currently overdue`,
+      href: '/committee/requests/history',
     },
     {
       label: 'Returned Requests',
       icon: PackageCheck,
       value: summary?.myReturnedRequests ?? 0,
       detail: `${summary?.myTotalRequests ?? 0} total requests`,
+      href: '/committee/requests/history',
     },
   ]
 }

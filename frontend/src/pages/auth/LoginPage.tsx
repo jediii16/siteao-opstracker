@@ -2,7 +2,6 @@ import {
   ArrowRight,
   Eye,
   EyeOff,
-  Gamepad2,
   LoaderCircle,
   TriangleAlert,
 } from 'lucide-react'
@@ -199,25 +198,6 @@ export function LoginPage() {
             )}
           </Button>
         </form>
-
-        <div className="auth-game-area mt-6">
-          <div className="auth-game-divider mb-4 flex items-center gap-3" aria-hidden="true">
-            <span className="h-px flex-1 bg-border" />
-            <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-              Need a tiny break?
-            </span>
-            <span className="h-px flex-1 bg-border" />
-          </div>
-          <Button
-            type="button"
-            variant="outline"
-            className="h-11 w-full border-brand-light-blue/40 bg-brand-light-blue/5 text-brand-navy transition-all hover:-translate-y-0.5 hover:border-brand-light-blue/70 hover:bg-brand-light-blue/10 hover:text-brand-navy hover:shadow-md dark:text-blue-100"
-            onClick={() => window.location.assign('/?playGame=1')}
-          >
-            <Gamepad2 className="size-4 text-primary" aria-hidden="true" />
-            Play Supply Sprint
-          </Button>
-        </div>
       </CardContent>
     </Card>
   )

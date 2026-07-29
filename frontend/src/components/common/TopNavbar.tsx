@@ -1,4 +1,4 @@
-import { LogOut, Menu, UserRound } from 'lucide-react'
+import { LogOut, Menu } from 'lucide-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -83,10 +83,6 @@ export function TopNavbar({ navigation, user }: TopNavbarProps) {
               </span>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem disabled>
-              <UserRound aria-hidden="true" />
-              Profile
-            </DropdownMenuItem>
             <DropdownMenuItem
               onSelect={() => void handleLogout()}
               disabled={isLoggingOut}

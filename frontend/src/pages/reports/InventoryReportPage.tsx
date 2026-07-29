@@ -286,6 +286,7 @@ export function InventoryReportPage() {
       key: 'item',
       label: 'Item',
       sortKey: 'itemName',
+      align: 'left',
       render: (item) => (
         <div>
           <p className="font-medium text-foreground">{item.itemName}</p>

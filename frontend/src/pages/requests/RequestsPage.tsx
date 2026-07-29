@@ -4,13 +4,16 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { PageHeader } from '@/components/common/PageHeader'
+import { ActionTooltip } from '@/components/common/ActionTooltip'
 import { AppSelect } from '@/components/common/AppSelect'
+import { FilterSummary, type ActiveFilter } from '@/components/common/FilterSummary'
 import { PaginationControls } from '@/components/common/PaginationControls'
 import { ServerDataTable, type ServerTableColumn } from '@/components/common/ServerDataTable'
 import { StatusBadge } from '@/components/common/StatusBadge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { useAuth } from '@/hooks/useAuth'
 import { useDebouncedValue } from '@/hooks/useDebouncedValue'
 import { getApiErrorMessage } from '@/services/api'
@@ -23,6 +26,7 @@ import type {
   RequestStatus,
   SortOrder,
 } from '@/types/api'
+import { formatEnumLabel } from '@/utils/formatEnumLabel'
 
 const statuses: RequestStatus[] = [
   'PENDING',
@@ -100,6 +104,38 @@ export function RequestsPage() {
     setIsLoading(true)
   }
 
+  function clearFilters() {
+    setSearch('')
+    setStatus('')
+    setCommitteeId('')
+    setPage(1)
+    setIsLoading(true)
+  }
+
+  const activeFilters: ActiveFilter[] = [
+    ...(search.trim()
+      ? [{
+          key: 'search',
+          label: `Search: ${search.trim()}`,
+          onRemove: () => updateFilter(setSearch, ''),
+        }]
+      : []),
+    ...(status
+      ? [{
+          key: 'status',
+          label: `Status: ${formatEnumLabel(status)}`,
+          onRemove: () => updateFilter(setStatus, ''),
+        }]
+      : []),
+    ...(!isCommittee && committeeId
+      ? [{
+          key: 'committee',
+          label: `Committee: ${committees.find((committee) => committee.id === committeeId)?.name ?? 'Selected'}`,
+          onRemove: () => updateFilter(setCommitteeId, ''),
+        }]
+      : []),
+  ]
+
   const basePath = isCommittee ? '/committee' : '/logistics'
   const columns: ServerTableColumn<BorrowingRequestSummary>[] = [
     {
@@ -117,6 +153,7 @@ export function RequestsPage() {
     {
       key: 'requester',
       label: isCommittee ? 'Requester' : 'Committee / Requester',
+      align: 'left',
       render: (request) => (
         <div>
           {!isCommittee ? <p className="font-medium">{request.committee.name}</p> : null}
@@ -144,19 +181,29 @@ export function RequestsPage() {
       label: 'Status',
       sortKey: 'status',
       render: (request) => (
-        <StatusBadge label={request.status} tone={requestTone(request.status)} />
+        <StatusBadge
+          label={formatEnumLabel(request.status)}
+          tone={requestTone(request.status)}
+        />
       ),
     },
     {
       key: 'actions',
       label: 'Actions',
-      className: 'text-right',
+      className: 'w-14',
       render: (request) => (
-        <Button asChild type="button" variant="ghost" size="icon-sm" aria-label={`View request ${request.requestCode}`}>
-          <Link to={`${basePath}/requests/${request.id}`}>
-            <Eye aria-hidden="true" />
-          </Link>
-        </Button>
+        <div className="inline-flex min-w-10 items-center justify-center">
+          <ActionTooltip label={`View request ${request.requestCode}`}>
+            <Button asChild type="button" variant="ghost" size="icon-sm">
+              <Link
+                to={`${basePath}/requests/${request.id}`}
+                aria-label={`View request ${request.requestCode}`}
+              >
+                <Eye aria-hidden="true" />
+              </Link>
+            </Button>
+          </ActionTooltip>
+        </div>
       ),
     },
   ]
@@ -182,40 +229,55 @@ export function RequestsPage() {
         }
       />
       <Card className="gap-0 py-0">
-        <CardContent className="grid gap-3 border-b p-4 md:grid-cols-[minmax(15rem,1fr)_repeat(2,minmax(10rem,auto))]">
-          <div className="relative">
-            <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
-            <Input
-              value={search}
-              onChange={(event) => updateFilter(setSearch, event.target.value)}
-              placeholder="Search requests…"
-              aria-label="Search borrowing requests"
-              className="pl-9"
-            />
+        <CardContent className="grid gap-3 border-b p-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="space-y-1.5">
+            <Label htmlFor="request-search">Search</Label>
+            <div className="relative">
+              <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
+              <Input
+                id="request-search"
+                value={search}
+                onChange={(event) => updateFilter(setSearch, event.target.value)}
+                placeholder="Code or requester"
+                className="pl-9"
+              />
+            </div>
           </div>
-          <AppSelect
-            value={status}
-            onValueChange={(value) => updateFilter(setStatus, value)}
-            ariaLabel="Filter request status"
-            emptyLabel="All statuses"
-            options={statuses.map((requestStatus) => ({
-              value: requestStatus,
-              label: requestStatus,
-            }))}
-          />
-          {!isCommittee ? (
+          <div className="space-y-1.5">
+            <Label>Request status</Label>
             <AppSelect
-              value={committeeId}
-              onValueChange={(value) => updateFilter(setCommitteeId, value)}
-              ariaLabel="Filter by committee"
-              emptyLabel="All committees"
-              options={committees.map((committee) => ({
-                value: committee.id,
-                label: committee.name,
+              value={status}
+              onValueChange={(value) => updateFilter(setStatus, value)}
+              ariaLabel="Filter request status"
+              emptyLabel="All statuses"
+              options={statuses.map((requestStatus) => ({
+                value: requestStatus,
+                label: formatEnumLabel(requestStatus),
               }))}
             />
+          </div>
+          {!isCommittee ? (
+            <div className="space-y-1.5">
+              <Label>Committee</Label>
+              <AppSelect
+                value={committeeId}
+                onValueChange={(value) => updateFilter(setCommitteeId, value)}
+                ariaLabel="Filter by committee"
+                emptyLabel="All committees"
+                options={committees.map((committee) => ({
+                  value: committee.id,
+                  label: committee.name,
+                }))}
+              />
+            </div>
           ) : null}
         </CardContent>
+        <FilterSummary
+          filters={activeFilters}
+          resultCount={pagination.total}
+          resultLabel={pagination.total === 1 ? 'request' : 'requests'}
+          onClear={clearFilters}
+        />
         <ServerDataTable
           rows={requests}
           columns={columns}

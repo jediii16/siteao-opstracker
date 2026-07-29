@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { PageHeader } from '@/components/common/PageHeader'
+import { ActionTooltip } from '@/components/common/ActionTooltip'
 import { AppSelect } from '@/components/common/AppSelect'
 import { PaginationControls } from '@/components/common/PaginationControls'
 import { ServerDataTable, type ServerTableColumn } from '@/components/common/ServerDataTable'
@@ -20,6 +21,7 @@ import type {
   RequestStatus,
   SortOrder,
 } from '@/types/api'
+import { formatEnumLabel } from '@/utils/formatEnumLabel'
 
 const emptyPagination: Pagination = { page: 1, limit: 10, total: 0, totalPages: 0 }
 
@@ -99,7 +101,7 @@ export function BorrowHistoryPage() {
       sortKey: 'status',
       render: (record) => (
         <StatusBadge
-          label={record.status}
+          label={formatEnumLabel(record.status)}
           tone={
             record.status === 'RETURNED'
               ? 'success'
@@ -115,13 +117,20 @@ export function BorrowHistoryPage() {
     {
       key: 'actions',
       label: 'Actions',
-      className: 'text-right',
+      className: 'w-14',
       render: (record) => (
-        <Button asChild variant="ghost" size="icon-sm" aria-label={`View request ${record.requestCode}`}>
-          <Link to={`/committee/requests/${record.id}`}>
-            <Eye aria-hidden="true" />
-          </Link>
-        </Button>
+        <div className="inline-flex min-w-10 items-center justify-center">
+          <ActionTooltip label={`View request ${record.requestCode}`}>
+            <Button asChild variant="ghost" size="icon-sm">
+              <Link
+                to={`/committee/requests/${record.id}`}
+                aria-label={`View request ${record.requestCode}`}
+              >
+                <Eye aria-hidden="true" />
+              </Link>
+            </Button>
+          </ActionTooltip>
+        </div>
       ),
     },
   ]
@@ -159,7 +168,7 @@ export function BorrowHistoryPage() {
             emptyLabel="All statuses"
             options={(
               ['APPROVED', 'BORROWED', 'RETURNED', 'REJECTED', 'CANCELLED'] as RequestStatus[]
-            ).map((value) => ({ value, label: value }))}
+            ).map((value) => ({ value, label: formatEnumLabel(value) }))}
           />
         </CardContent>
         <ServerDataTable

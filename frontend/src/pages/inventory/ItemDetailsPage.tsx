@@ -1,5 +1,13 @@
 import axios from 'axios'
-import { ArrowLeft, ExternalLink, Pencil, Search } from 'lucide-react'
+import {
+  ArrowLeft,
+  Boxes,
+  ExternalLink,
+  MapPin,
+  PackageOpen,
+  Pencil,
+  Search,
+} from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
@@ -23,6 +31,7 @@ import type {
   Pagination,
   SortOrder,
 } from '@/types/api'
+import { formatEnumLabel } from '@/utils/formatEnumLabel'
 
 const emptyPagination: Pagination = { page: 1, limit: 10, total: 0, totalPages: 0 }
 
@@ -115,6 +124,15 @@ export function ItemDetailsPage() {
   }
 
   const basePath = isAdmin ? '/logistics' : '/committee'
+  const borrowedQuantity = Math.max(0, item.totalQuantity - item.availableQuantity)
+  const availabilityPercent =
+    item.totalQuantity > 0 ? (item.availableQuantity / item.totalQuantity) * 100 : 0
+  const conditionTone =
+    item.condition === 'GOOD'
+      ? 'success'
+      : item.condition === 'FAIR' || item.condition === 'UNDER_REPAIR'
+        ? 'warning'
+        : 'danger'
   const historyColumns: ServerTableColumn<BorrowingHistoryRecord>[] = [
     {
       key: 'request',
@@ -145,7 +163,7 @@ export function ItemDetailsPage() {
       sortKey: 'status',
       render: (entry) => (
         <StatusBadge
-          label={entry.status}
+          label={formatEnumLabel(entry.status)}
           tone={
             entry.status === 'REJECTED'
               ? 'danger'
@@ -184,12 +202,70 @@ export function ItemDetailsPage() {
           </div>
         }
       />
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <Card><CardHeader><CardTitle>Availability</CardTitle></CardHeader><CardContent><p className="text-2xl font-bold">{item.availableQuantity} / {item.totalQuantity}</p></CardContent></Card>
-        <Card><CardHeader><CardTitle>Condition</CardTitle></CardHeader><CardContent><p>{item.condition.replaceAll('_', ' ')}</p></CardContent></Card>
-        <Card><CardHeader><CardTitle>Storage</CardTitle></CardHeader><CardContent><p>{item.storageLocation}</p></CardContent></Card>
-        <Card><CardHeader><CardTitle>Status</CardTitle></CardHeader><CardContent><StatusBadge label={item.isActive ? 'Active' : 'Inactive'} tone={item.isActive ? 'success' : 'inactive'} /></CardContent></Card>
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>Inventory summary</CardTitle>
+        </CardHeader>
+        <CardContent className="grid gap-6 lg:grid-cols-[minmax(0,1.25fr)_repeat(3,minmax(0,1fr))]">
+          <div className="rounded-xl bg-muted/50 p-4">
+            <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+              <Boxes className="size-4" aria-hidden="true" />
+              Available now
+            </div>
+            <p className="mt-2 font-heading text-3xl font-bold tabular-nums">
+              {item.availableQuantity}
+              <span className="ml-1 text-base font-medium text-muted-foreground">
+                of {item.totalQuantity}
+              </span>
+            </p>
+            <div
+              className="mt-3 h-2 overflow-hidden rounded-full bg-border"
+              role="progressbar"
+              aria-label="Available inventory"
+              aria-valuemin={0}
+              aria-valuemax={item.totalQuantity}
+              aria-valuenow={item.availableQuantity}
+            >
+              <div
+                className="h-full rounded-full bg-primary"
+                style={{ width: `${availabilityPercent}%` }}
+              />
+            </div>
+          </div>
+          <div>
+            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              <PackageOpen className="size-4" aria-hidden="true" />
+              Currently borrowed
+            </div>
+            <p className="mt-2 text-2xl font-bold tabular-nums">{borrowedQuantity}</p>
+            <p className="mt-1 text-xs text-muted-foreground">Units outside storage</p>
+          </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              Condition
+            </p>
+            <div className="mt-2">
+              <StatusBadge
+                label={formatEnumLabel(item.condition)}
+                tone={conditionTone}
+              />
+            </div>
+            <div className="mt-4">
+              <StatusBadge
+                label={item.isActive ? 'Active record' : 'Inactive record'}
+                tone={item.isActive ? 'neutral' : 'inactive'}
+              />
+            </div>
+          </div>
+          <div>
+            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              <MapPin className="size-4" aria-hidden="true" />
+              Storage location
+            </div>
+            <p className="mt-2 text-sm font-medium leading-6">{item.storageLocation}</p>
+          </div>
+        </CardContent>
+      </Card>
       <Card>
         <CardHeader><CardTitle>Item information</CardTitle></CardHeader>
         <CardContent className="space-y-3 text-sm">
